@@ -1,0 +1,9 @@
+{
+    "name": "yarse"
+  , "version": "0.1"
+  , "description": "Yet Another Recipe Search Engine"
+  , "keywords": ["JavaScript", "Artificial Intelligence", "Search Engine"]
+  , "author": "Michael Jess <mijess@mail.uni-mannheim.de>"
+  , "main": "index"
+  , "engines": { "node": "0.8.11" }
+}

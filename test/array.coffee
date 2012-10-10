@@ -1,3 +1,5 @@
+'use strict'
+
 describe 'Array', ->
   describe '#indexOf()', ->
     it 'should return -1 when not present', ->

@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     },
     watch : {
       files : ['grunt.js', 'src/**/*.js', 'test/**/*.coffee'],
-      tasks : ['lint', 'coffee_', 'simplemocha', 'webpack']
+      tasks : ['lint', 'coffee', 'simplemocha', 'webpack']
     },
     jshint : {
       options : {

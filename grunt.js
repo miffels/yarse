@@ -13,13 +13,13 @@ module.exports = function(grunt) {
     webpack: {
       client: {
         src: "src/main.js",
-        dest: "asserts/client.js"
+        dest: "webpack/main.js"
       }
     },
     coffee: {
       app: {
         src: ['test/**/*.coffee'],
-        dest: 'test',
+        dest: './',
         options: {
             bare: true,
             preserve_dirs: true
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
       }
     },
     lint: {
-      all : ['grunt.js', 'src/**/*.js', 'test/**/*.js']
+      all : ['grunt.js', 'src/**/*.js']
     },
     watch : {
       files : ['grunt.js', 'src/**/*.js', 'test/**/*.coffee'],

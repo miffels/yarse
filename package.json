@@ -8,7 +8,7 @@
       "mail": "mijess@mail.uni-mannheim.de"
   },"main": "index"
   , "engines": { "node": ">= 0.8.11" }
-  , "scripts": { "preinstall": "npm i -g grunt" }
+  , "scripts": { "preinstall": "npm i -g grunt && npm i -g jam", "postinstall": "jam install"}
   , "devDependencies": {
     "mocha": "1.6.x",
     "should": "1.2.x",

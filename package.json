@@ -11,7 +11,7 @@
   , "scripts": {
   	  "preinstall": [
   	    "npm i -g grunt && ",
-  	    "npm i -g jam && ",
+  	    "npm i -g jamjs && ",
   	    "npm i -g node-gyp && ",
   	    "cd .. && ",
   	    "git clone https://git@github.com/brianmcd/contextify.git && ",

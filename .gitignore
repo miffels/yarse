@@ -3,3 +3,4 @@
 node_modules/
 jam/
 webpack/
+config/secret

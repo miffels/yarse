@@ -39,13 +39,20 @@ describe('RemoteConfiguration', function() {
       return concatenatedString.should.equal('foo&bar');
     });
   });
-  return describe('#getSignatureBaseString', function() {
+  describe('#getSignatureBaseString', function() {
     return it('should concatenate method, baseUrl and parameters and escape non-alphanumerical characters', function() {
       remoteConfiguration.parameters = {};
       remoteConfiguration.parameters.a = '&';
       remoteConfiguration.method = 'POST';
       remoteConfiguration.baseUrl = '=here';
       return remoteConfiguration.getSignatureBaseString().should.equal('POST&%3Dhere&a%3D%26');
+    });
+  });
+  return describe('#encodedParameters', function() {
+    return it('should escape non-alphanumerical characters', function() {
+      remoteConfiguration.parameters = {};
+      remoteConfiguration.parameters.a = '&';
+      return remoteConfiguration.encodedParameters().should.equal('a%3D%26');
     });
   });
 });

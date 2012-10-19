@@ -37,3 +37,9 @@ describe 'RemoteConfiguration', ->
       remoteConfiguration.method = 'POST'
       remoteConfiguration.baseUrl = '=here'
       remoteConfiguration.getSignatureBaseString().should.equal 'POST&%3Dhere&a%3D%26'
+      
+  describe '#encodedParameters', ->
+    it 'should escape non-alphanumerical characters', ->
+      remoteConfiguration.parameters = {}
+      remoteConfiguration.parameters.a = '&'
+      remoteConfiguration.encodedParameters().should.equal 'a%3D%26'    

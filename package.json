@@ -5,10 +5,24 @@
   , "keywords": ["JavaScript", "Artificial Intelligence", "Search Engine"]
   , "author": {
       "name": "Michael Jess",
-      "mail": "mijess@mail.uni-mannheim.de"
-  },"main": "index"
+      "mail": "mijess@mail.uni-mannheim.de"}
+  , "main": "index"
   , "engines": { "node": ">= 0.8.11" }
-  , "scripts": { "preinstall": "npm i -g grunt && npm i -g jam", "postinstall": "jam install"}
+  , "scripts": {
+  	  "preinstall": "\
+  	    npm i -g grunt &&\
+  	    npm i -g jam &&\
+  	    npm i -g node-gyp &&\
+  	    cd .. &&\
+  	    git clone https://git@github.com/brianmcd/contextify.git &&\
+  	    cd contextify/ &&\
+  	    node-gyp clean &&\
+  	    node-gyp configure &&\
+  	    node-gyp build &&\
+  	    cd ../yarse/ &&\
+  	    mv ../contextify node_modules &&\
+  	    rm -rf node_modules/contextify/.git"
+  	, "postinstall": "jam install"}
   , "devDependencies": {
     "mocha": "1.6.x",
     "should": "1.2.x",
@@ -16,8 +30,9 @@
     "grunt-webpack": "0.3.x",
     "webpack": "0.7.x",
     "coffee-script": "1.3.x",
-    "grunt-coffee": ""
-  },"jam": {
+    "grunt-coffee": "0.0.x",
+    "bindings": "1.0.x"}
+  , "jam": {
     "dependencies": {
       "jquery": "1.8.x",
       "backbone": "0.9.x",

@@ -27,10 +27,11 @@
     "grunt-coffee": "0.0.x",
     "bindings": "1.0.x"}
   , "jam": {
-    "dependencies": {
-      "jquery": "1.8.x",
-      "backbone": "0.9.x",
-      "bootstrap": "2.1.x"
+      "dependencies": {
+        "jquery": "1.8.x"
+      , "backbone": "0.9.x"
+      , "bootstrap": "2.1.x"
+      }
+    , "packageDir": "web_modules"
     }
-  }
 }

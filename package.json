@@ -2,36 +2,44 @@
     "name":	"yarse"
   , "version": "0.0.1"
   , "description": "Yet Another Recipe Search Engine"
-  , "keywords": ["JavaScript", "Artificial Intelligence", "Search Engine"]
+  , "keywords": [
+        "JavaScript"
+      , "Artificial Intelligence"
+      , "Search Engine"
+    ]
   , "author": {
-      "name": "Michael Jess",
-      "mail": "mijess@mail.uni-mannheim.de"}
+        "name": "Michael Jess"
+      , "mail": "mijess@mail.uni-mannheim.de"
+    }
   , "main": "index"
-  , "engines": { "node": ">= 0.8.11" }
+  , "engines": {
+        "node": ">= 0.8.11"
+    }
   , "scripts": {
-  	  "preinstall": [
-  	    "npm i -g grunt && ",
-  	    "npm i -g jamjs"
-  	  ]
-  	, "postinstall": [
-  	    "jam install"
-  	  ]
+  	    "preinstall": [
+  	        "npm i -g grunt && "
+  	      , "npm i -g jamjs"
+  	    ]
+  	  , "postinstall": [
+  	        "jam install"
+  	    ]
   	}
   , "devDependencies": {
-    "mocha": "1.6.x",
-    "should": "1.2.x",
-    "grunt-simple-mocha": "0.2.x",
-    "grunt-webpack": "0.3.x",
-    "webpack": "0.7.x",
-    "coffee-script": "1.3.x",
-    "grunt-coffee": "0.0.x",
-    "bindings": "1.0.x"}
+        "mocha": "1.6.x"
+      , "should": "1.2.x"
+      , "grunt-simple-mocha": "0.2.x"
+      , "grunt-webpack": "0.3.x"
+      , "webpack": "0.7.x"
+      , "coffee-script": "1.3.x"
+      , "grunt-coffee": "0.0.x"
+      , "bindings": "1.0.x"
+    }
   , "jam": {
-      "dependencies": {
-        "jquery": "1.8.x"
-      , "backbone": "0.9.x"
-      , "bootstrap": "2.1.x"
-      }
-    , "packageDir": "web_modules"
+        "dependencies": {
+            "jquery": "1.8.x"
+          , "backbone": "0.9.x"
+          , "bootstrap": "2.1.x"
+        }
+      , "packageDir": "web_modules"
     }
 }

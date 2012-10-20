@@ -1,6 +1,7 @@
 'use strict';
 
 var $ = require('jQuery');
+var yarseConfiguration = require('../package.json').yarse;
 
 function RemoteConfiguration() {
 	this.parameters = require('../config/rest.js');
@@ -9,17 +10,34 @@ function RemoteConfiguration() {
 	this.accessToken = '';
 }
 
-RemoteConfiguration.prototype.makeRequest = function() {
-	var request = this.concatenateComponents(this.baseUrl + '?' +
+RemoteConfiguration.prototype.makeRequest = function(callback) {
+	this.stringifySignature(function(stringifiedSignature) {
+		
+		var request = this.concatenateComponents(this.baseUrl + '?' +
 		this.stringifyParameters() + '&' +
-		this.stringifySignature());
-	return request;
+		stringifiedSignature);
+		
+		callback(request);
+	}.bind(this));
 };
 
-RemoteConfiguration.prototype.signature = function() {
-	var signatureBaseString = this.getSignatureBaseString();
-	var signature = 'not implemented';
-	return signature;
+RemoteConfiguration.prototype.signature = function(callback) {
+	var signatureBaseString = encodeURIComponent(this.getSignatureBaseString());
+	var accessSecret = yarseConfiguration.accessSecret;
+	var signatureServerAddress = yarseConfiguration.signatureServer +
+	'?data=' + signatureBaseString +
+	'&accessSecret=' + accessSecret;
+	
+	console.log(signatureServerAddress);
+	
+	$.ajax({
+		url: signatureServerAddress
+	}).done(function(signature) {
+		callback(signature);
+	}).error(function(error) {
+		console.log('Could not contact signature server. The following error occured:');
+		console.log(error.responseText);
+	});
 };
 
 RemoteConfiguration.prototype.getSignatureBaseString = function() {
@@ -58,8 +76,10 @@ RemoteConfiguration.prototype.resolveParameter = function(parameterName) {
 	return typeof parameter === 'function' ? parameter() : parameter;
 };
 
-RemoteConfiguration.prototype.stringifySignature = function() {
-	return 'oauth_signature=' + this.signature();
+RemoteConfiguration.prototype.stringifySignature = function(callback) {
+	this.signature(function(signature) {
+		callback('oauth_signature=' + signature);
+	});
 };
 
 RemoteConfiguration.prototype.getSortedParameters = function() {

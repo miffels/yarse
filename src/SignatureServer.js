@@ -4,6 +4,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var crypto = require('crypto');
+var config = require('./package.json').yarse;
 
 function SignatureServer() {
 	this.server = http.createServer(this.handleQuery);
@@ -31,6 +32,7 @@ SignatureServer.prototype.respond = function(response, status, message) {
 SignatureServer.prototype.readSecret = function(callback) {
 	fs.readFile('./config/secret', function (error, data) {
 		if (error) {
+			console.log('The signature file (' + config.signatureFile + ') could not be opened. Make sure it is in place and/or the location is configured properly in package.json.yarse.signatureFile. The following error occured:');
 			console.log(error);
 			throw error;
 		}

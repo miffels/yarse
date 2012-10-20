@@ -9,20 +9,14 @@
   , "main": "index"
   , "engines": { "node": ">= 0.8.11" }
   , "scripts": {
-  	  "preinstall": "\
-  	    npm i -g grunt &&\
-  	    npm i -g jam &&\
-  	    npm i -g node-gyp &&\
-  	    cd .. &&\
-  	    git clone https://git@github.com/brianmcd/contextify.git &&\
-  	    cd contextify/ &&\
-  	    node-gyp clean &&\
-  	    node-gyp configure &&\
-  	    node-gyp build &&\
-  	    cd ../yarse/ &&\
-  	    mv ../contextify node_modules &&\
-  	    rm -rf node_modules/contextify/.git"
-  	, "postinstall": "jam install"}
+  	  "preinstall": [
+  	    "npm i -g grunt && ",
+  	    "npm i -g jamjs"
+  	  ]
+  	, "postinstall": [
+  	    "jam install"
+  	  ]
+  	}
   , "devDependencies": {
     "mocha": "1.6.x",
     "should": "1.2.x",

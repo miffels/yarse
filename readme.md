@@ -21,7 +21,7 @@ $ npm install
 
 Npm will then start loading the dependencies and configuration scripts will take care of manual dependency builds. 
 
-[vs]: http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-cpp-express
+[vs]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-2010-express
 [python]: http://www.python.org/download/releases/2.7.3#download
 [ssh]: https://help.github.com/articles/generating-ssh-keys
 [git]: http://git-scm.com/downloads

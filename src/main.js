@@ -1,5 +1,11 @@
 'use strict';
-var Recipe = require('recipe');
+var stuff = require("xmlhttprequest");
 
-var recipe = new Recipe("Stuff");
-console.log(recipe);
+console.log(stuff);
+console.log(stuff.XMLHttpRequest);
+console.log(stuff.XMLHttpRequest.prototype);
+
+var RemoteConfiguration = require('../src/remote');
+var remoteConfiguration = new RemoteConfiguration();
+
+console.log(remoteConfiguration.makeRequest());

@@ -44,5 +44,6 @@
     }
   , "yarse": {
         "signatureServer": "http://localhost:80"
+      , "signatureFile": "./config/signature"
     }
 }

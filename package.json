@@ -11,7 +11,7 @@
         "name": "Michael Jess"
       , "mail": "mijess@mail.uni-mannheim.de"
     }
-  , "main": "index"
+  , "main": "main"
   , "engines": {
         "node": ">= 0.8.11"
     }
@@ -41,5 +41,8 @@
           , "bootstrap": "2.1.x"
         }
       , "packageDir": "web_modules"
+    }
+  , "yarse": {
+        "signatureServer": "http://localhost:80"
     }
 }

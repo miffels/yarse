@@ -48,6 +48,6 @@
   , "yarse": {
         "signatureServer": "http://localhost:80"
       , "signatureFile": "./config/signature"
-      , "accessSecret": "1ddf07704cef4f0b9988738eca807a30"
+      , "baseUrl": "http://platform.fatsecret.com/rest/server.api"
     }
 }

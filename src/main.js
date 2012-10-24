@@ -1,10 +1,11 @@
 'use strict';
-var RemoteConfiguration = require('../src/remote');
+var FatSecretRequestBlank = require('../src/FatSecretRequestBlank');
 
-var remoteConfiguration = new RemoteConfiguration();
+var requestBlank = new FatSecretRequestBlank();
 
-remoteConfiguration.parameters.method = 'profile.create';
+requestBlank.parameters.method = 'foods.search';
+requestBlank.parameters.search_expression = 'potato';
 
-remoteConfiguration.makeRequest(function(request) {
+requestBlank.makeRequest(function(request) {
 	console.log(request);
 });

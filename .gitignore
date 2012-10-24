@@ -5,3 +5,4 @@ jam/
 web_modules/
 webpack/
 config/secret
+test/**/*.js

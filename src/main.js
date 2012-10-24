@@ -1,11 +1,11 @@
 'use strict';
-var stuff = require("xmlhttprequest");
+var FatSecretRequestBlank = require('../src/FatSecretRequestBlank');
 
-console.log(stuff);
-console.log(stuff.XMLHttpRequest);
-console.log(stuff.XMLHttpRequest.prototype);
+var requestBlank = new FatSecretRequestBlank();
 
-var RemoteConfiguration = require('../src/remote');
-var remoteConfiguration = new RemoteConfiguration();
+requestBlank.parameters.method = 'foods.search';
+requestBlank.parameters.search_expression = 'potato';
 
-console.log(remoteConfiguration.makeRequest());
+requestBlank.makeRequest(function(request) {
+	console.log(request);
+});

@@ -2,4 +2,5 @@
 
 var SignatureServer = require('./SignatureServer');
 var signatureServer = new SignatureServer();
+
 signatureServer.start();

@@ -1,6 +1,6 @@
 'use strict';
 
-var $ = require('jQuery');
+var jQuery = require('jQuery');
 var yarseConfiguration = require('../package.json').yarse;
 var OAuthRequestBlank = require('./OAuthRequestBlank');
 var OAuthBaseParameters = require('../config/oauth');
@@ -19,7 +19,7 @@ OAuthRequestBlank.prototype.signature = function(stringifiedParameters, callback
 	'?data=' + signatureBaseString +
 	'&accessSecret=' + accessSecret;
 	
-	$.ajax({
+	jQuery.ajax({
 		url: signatureServerAddress
 	}).done(function(signature) {
 		callback(signature);

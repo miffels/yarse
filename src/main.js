@@ -1,6 +1,6 @@
 'use strict';
 var FatSecretRequestBlank = require('../src/FatSecretRequestBlank');
-var $ = require('jQuery');
+var $ = require('./jquery');
 
 var requestBlank = new FatSecretRequestBlank();
 

@@ -26,8 +26,8 @@ requestBlank.makeRequest(function(url) {
 		recipeBlank.parameters.recipe_id = result.recipes.recipe[0].recipe_id;
 		recipeBlank.makeRequest(function (recipeUrl) {
 			resolve(recipeUrl, function(recipe) {
-			console.log(recipe);
-		});
+				console.log(recipe);
+			});
 		});
 	});
 });

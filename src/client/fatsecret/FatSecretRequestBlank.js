@@ -1,9 +1,9 @@
 'use strict';
 
 var jQuery = require('jQuery');
-var yarseConfiguration = require('../package.json').yarse;
+var yarseConfiguration = require('../../../package.json').yarse;
 var OAuthRequestBlank = require('./OAuthRequestBlank');
-var OAuthBaseParameters = require('../config/oauth');
+var OAuthBaseParameters = require('../../../config/oauth');
 
 function FatSecretRequestBlank(parameters) {
 	OAuthRequestBlank.call(this, parameters ? parameters : new OAuthBaseParameters(), yarseConfiguration.baseUrl);

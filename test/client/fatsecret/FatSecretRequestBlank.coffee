@@ -1,6 +1,6 @@
 'use strict'
 
-FatSecretRequestBlank = require '../src/FatSecretRequestBlank'
+FatSecretRequestBlank = require '../../../src/client/fatsecret/FatSecretRequestBlank'
 
 describe 'requestBlank', ->
   requestBlank = null;

@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         src: 'test/**/*.coffee',
         options: {
           timeout: 3000,
-          ignoreLeaks: false,
+          ignoreLeaks: true,
           ui: 'bdd',
           reporter: 'min'
         }

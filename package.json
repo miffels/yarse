@@ -27,6 +27,7 @@
   , "dependencies": {
         "jquery": "1.7.x"
       , "bindings": "1.0.x"
+      , "enhanced-require": "0.4.x"
     }
   , "devDependencies": {
         "mocha": "1.6.x"

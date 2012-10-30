@@ -3,9 +3,9 @@
 module.exports = function(grunt) {
 
   require('should');
+  require('coffee-script');
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-webpack');
-  grunt.loadNpmTasks('grunt-coffee');
   
   // Project configuration.
   grunt.initConfig({
@@ -16,22 +16,12 @@ module.exports = function(grunt) {
         dest: "webpack/main.js"
       }
     },
-    coffee: {
-      app: {
-        src: ['test/**/*.coffee'],
-        dest: './',
-        options: {
-            bare: true,
-            preserve_dirs: true
-        }
-      }
-    },
     simplemocha: {
       all: {
-        src: 'test/**/*.js',
+        src: 'test/**/*.coffee',
         options: {
           timeout: 3000,
-          ignoreLeaks: false,
+          ignoreLeaks: true,
           ui: 'bdd',
           reporter: 'min'
         }
@@ -42,7 +32,7 @@ module.exports = function(grunt) {
     },
     watch : {
       files : ['grunt.js', 'src/**/*.js', 'test/**/*.coffee'],
-      tasks : ['lint', 'coffee', 'simplemocha']
+      tasks : ['lint', 'simplemocha']
     },
     jshint : {
       options : {
@@ -71,5 +61,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint coffee simplemocha webpack watch');
+  grunt.registerTask('default', 'lint simplemocha webpack watch');
 };

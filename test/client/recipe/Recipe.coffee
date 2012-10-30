@@ -1,6 +1,6 @@
 'use strict'
 
-Recipe = require '../src/recipe'
+Recipe = require '../../../src/client/recipe/Recipe'
 
 describe 'Recipe', ->
   describe '#Recipe', ->

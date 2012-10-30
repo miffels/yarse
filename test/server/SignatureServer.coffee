@@ -1,6 +1,6 @@
 'use strict'
 
-SignatureServer = require '../src/SignatureServer'
+SignatureServer = require '../../src/server/SignatureServer'
 
 describe 'SignatureServer', ->
   signatureServer = null

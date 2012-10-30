@@ -4,7 +4,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var crypto = require('crypto');
-var config = require('../package.json').yarse;
+var config = require('../../package.json').yarse;
 
 function SignatureServer() {
 	this.server = http.createServer(this.handleQuery);

@@ -28,7 +28,13 @@ module.exports = function(grunt) {
       }
     },
     lint: {
-      all : ['grunt.js', 'src/**/*.js']
+      all : ['grunt.js',
+      'src/server/**/*.js',
+      'src/sample/**/*.js',
+      'src/client/fatsecret/**/*.js',
+      'src/client/numeric/**/*.js',
+      'src/client/recipe/**/*.js',
+      'src/client/uti/**/*.js']
     },
     watch : {
       files : ['grunt.js', 'src/**/*.js', 'test/**/*.coffee'],

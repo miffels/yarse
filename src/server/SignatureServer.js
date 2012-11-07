@@ -26,13 +26,10 @@ SignatureServer.prototype.handleQuery = function(request, response) {
 };
 
 SignatureServer.prototype.respond = function(response, status, message) {
-	console.log('Responding');
 	response.writeHead(status, {
 		'Content-Type' : 'text/plain'
 	});
-	console.log('Sttill');
 	response.end(message);
-	console.log('now!');
 };
 
 SignatureServer.prototype.readSecret = function(callback) {
@@ -60,7 +57,7 @@ SignatureServer.prototype.encrypt = function(data, key) {
 };
 
 SignatureServer.prototype.start = function(response) {
-	this.server.listen(80);
+	this.server.listen(require('../../package.json').yarse.signatureServerPort || 80);
 };
 
 module.exports = SignatureServer;

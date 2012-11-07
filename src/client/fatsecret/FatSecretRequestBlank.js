@@ -15,7 +15,7 @@ FatSecretRequestBlank.prototype.constructor = FatSecretRequestBlank;
 OAuthRequestBlank.prototype.signature = function(stringifiedParameters, callback) {
 	var signatureBaseString = encodeURIComponent(this.getSignatureBaseString(stringifiedParameters));
 	var accessSecret = yarseConfiguration.accessSecret ? yarseConfiguration.accessSecret : '';
-	var signatureServerAddress = yarseConfiguration.signatureServer +
+	var signatureServerAddress = yarseConfiguration.signatureServer + ':' + yarseConfiguration.signatureServerPort + 
 	'?data=' + signatureBaseString +
 	'&accessSecret=' + accessSecret;
 	

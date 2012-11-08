@@ -1,0 +1,8 @@
+ul#myTab.nav.nav-tabs
+	each item in items
+		li
+			a(href= '#' + item.href, data-toggle="tab")= item.text
+div#myTabContent.tab-content
+	each item in items
+		div(id= item.href).tab-pane.fade
+			p= item.content

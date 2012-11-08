@@ -3,6 +3,16 @@ require = require('enhanced-require')(module);
 
 var webpack = require('webpack');
 var webpackFormatOutput = require('webpack/lib/formatOutput');
+var fs = require('fs');
+
+/* just a little helper to keep everything clean and tidy */
+
+var rmdir = require('./lib/rmdir');
+
+console.log('cleaning output directory...');
+rmdir('static');
+
+/**********************************************************/
 
 console.log('compiling javascript...');
 webpack(__dirname, "./src/main.js", {
@@ -11,6 +21,7 @@ webpack(__dirname, "./src/main.js", {
 	"watch": false,
 	"workers": true,
 	"maxChunks": 5,
+	"min": true,
 	"preLoaders": [
 		{
 			"test": "\\.js$",
@@ -58,7 +69,7 @@ webpack(__dirname, "./src/main.js", {
 	var pretty = webpackFormatOutput(result, {colors: true, context: __dirname});
 	console.log(pretty);
 	console.log('compiling index.jade...');
-	require('fs').writeFile('index.html', require('./src/client/view/template/index.jade')({output: raw, hash: hash}), 'utf-8', function(err) {
+	fs.writeFile('index.html', require('./src/client/view/template/index.jade')({output: raw, hash: hash}), 'utf-8', function(err) {
 		if(err) throw err;
 		console.log('Ok');
 	});

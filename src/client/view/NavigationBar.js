@@ -13,23 +13,24 @@ var NavigationBar = Backbone.View.extend({
   render: function() {
     var html = this.template({
 		pretty: true,
+		pageTitle: "yarse",
 		items: [{
-				"href": "1",
-				"text": "Tab 1",
-				"content": "This is tab Number One!"
+				"href": "ingredients",
+				"text": "Ingredients",
+				"content": "A grid of ingredients goes here!"
 			}, {
-				"href": "2",
-				"text": "Tab 2",
-				"content": "This is tab Number Two!"
+				"href": "recipes",
+				"text": "Recipes",
+				"content": "This tab contains a list of recipes found!"
 			}, {
-				"href": "3",
-				"text": "Tab 3",
-				"content": "This is tab Number Three!"
+				"href": "about",
+				"text": "About",
+				"content": "Some info on this project!"
 			}
 		]
 	});
 	$('body').append(html);
-	$('#myTab a:first').tab('show');
+	$('#navigationBar a:first').tab('show');
   }
 });
 

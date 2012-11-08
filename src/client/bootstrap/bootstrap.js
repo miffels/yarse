@@ -11,5 +11,5 @@
 // require("bootstrap/js/bootstrap-scrollspy");
 require("bootstrap/js/bootstrap-tab");
 // require("bootstrap/js/bootstrap-tooltip");
-// require("bootstrap/js/bootstrap-transition");
+require("bootstrap/js/bootstrap-transition");
 // require("bootstrap/js/bootstrap-typeahead");

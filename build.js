@@ -21,7 +21,6 @@ webpack(__dirname, "./src/main.js", {
 	"watch": false,
 	"workers": true,
 	"maxChunks": 5,
-	"min": true,
 	"preLoaders": [
 		{
 			"test": "\\.js$",

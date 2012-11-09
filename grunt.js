@@ -1,9 +1,10 @@
 'use strict';
 
 module.exports = function(grunt) {
-
+	
 	require('should');
 	require('coffee-script');
+		
 	grunt.loadNpmTasks('grunt-simple-mocha');
 	
 	// Project configuration.

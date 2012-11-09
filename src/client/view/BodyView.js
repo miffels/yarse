@@ -1,19 +1,12 @@
 'use strict';
 
-var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.setDomLibrary($);
+var JadeView = require('./JadeView');
 
-var BodyView = Backbone.View.extend({
-  
-  initialize: function() {
-    this.template = require('./template/body.jade');
-  },
-  
-  render: function() {
-    var html = this.template({pretty:true});
-	$('body').append(html);
-  }
+var BodyView = JadeView.extend({
+	
+	el: 'body',
+	templatePath: './template/body.jade'
+	
 });
 
 module.exports = BodyView;

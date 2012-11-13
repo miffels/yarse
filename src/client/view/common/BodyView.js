@@ -1,12 +1,11 @@
 'use strict';
 
-var JadeView = require('./JadeView');
+var JadeView = require('../JadeView');
 
 var BodyView = JadeView.extend({
-	
 	el: 'body',
-	templatePath: './template/body.jade'
-	
+	folder: 'common/',
+	typeName: 'BodyView'
 });
 
 module.exports = BodyView;

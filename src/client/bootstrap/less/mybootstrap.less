@@ -1,0 +1,27 @@
+@import "../../../../web_modules/bootstrap/less/bootstrap.less";
+
+body {
+  padding-top: 60px;
+}
+
+div.thumbnail {
+  max-height: 50px; max-width: 50px;
+}
+img.flexible {
+  max-height: 100%; max-width: 100%;
+}
+
+a.ingredient {
+  display: block;
+  padding: 4px;
+  line-height: @baseLineHeight;
+  border: 1px solid #ddd;
+  .border-radius(4px);
+  .box-shadow(0 1px 3px rgba(0,0,0,.055));
+  .transition(all .2s ease-in-out);
+}
+
+a.active-ingredient {
+  border-color: @green;
+  .box-shadow(0 1px 4px rgba(0,105,214,.25));
+}

@@ -2,16 +2,18 @@
 	.navbar-inner
 		.container
 			a(data-toggle="collapse", data-target=".nav-collapse").btn.btn-navbar
-				each item in items
-					span.icon-bar
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
 			a(href="#").brand= pageTitle
 			.nav-collapse.collapse
-				ul#navigationBar.nav
+				ul#tabs.nav
 					each item, i in items
 						li(class= i ? "" : "active")
 							a(href= '#' + item.href, data-toggle="tab")= item.text
-	.container
-		#navigationBarContent.tab-content
-			each item, i in items
-				div(id= item.href, class= i ? "" : "in active").tab-pane.fade
+.container
+	#tabsContent.tab-content
+		each item, i in items
+			div(id= item.href, class= i ? "" : "in active").tab-pane.fade
+				.container
 					p= item.content

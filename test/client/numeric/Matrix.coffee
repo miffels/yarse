@@ -14,8 +14,8 @@ describe 'Matrix', ->
   
   describe '#multiplyWith', ->
     it 'should not multiplay with matrices other than mxn if it is mxm', ->
-      -> matrix.multiplyWith([])
-      .should.throw
+      (-> matrix.multiplyWith([]))
+      .should.throw()
     it 'should multiply correctly', ->
       matrix[0].should.eql [1]
       matrix.multiplyWith(-2)[0].should.eql [-2]

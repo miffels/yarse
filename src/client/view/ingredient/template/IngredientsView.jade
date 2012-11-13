@@ -1,0 +1,13 @@
+div(id= id)
+	h1 Ingredients
+	- var separator = ""
+	- var ingredientString = ""
+	each ingredient in kitchen.attributes.ingredients
+		- var ingredientString = ingredientString + separator + ingredient
+		- var separator = ", "
+	- if(ingredientString !== "")
+		div= "Selected: " + ingredientString
+	
+	each category in subviews
+		h2= category.options.attributes.name
+		div(id= category.id)

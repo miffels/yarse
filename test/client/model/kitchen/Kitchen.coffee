@@ -12,6 +12,7 @@ describe 'Kitchen', ->
     ingredient = new Ingredient
     ingredients = new IngredientList([ingredient])
     kitchen = new Kitchen({ingredients: ingredients})
+    kitchen.attributes.kitchenView = {'render': ->}
 
   it 'should have ingredients in it', ->
     kitchen.attributes.should.have.property 'ingredients'

@@ -25,15 +25,19 @@ var JadeListView = JadeView.extend({
 	
 	initializeData: function() {
 		if(!this.dataType) {
-			throw new Error(this.typeName + " requires a subtype of Backbone.Collection as dataType.");
+			throw new Error(this.typeName + ' requires a subtype of Backbone.Collection as dataType.');
 		}
 		
-		this.data = this.options.data || new this.dataType();
+		this.data = this.options.data || this.data || new this.dataType();
 		
 		if(!(this.data instanceof Backbone.Collection)) {
-			throw new Error(this.typeName + " requires an instance of Backbone.Collection as data but got " + (this.data ?
-				"instance of " + this.data.constructor :
+			if(this.data instanceof Array) {
+				this.data = new this.dataType(this.data);
+			} else {
+				throw new Error(this.typeName + ' requires an instance of Backbone.Collection as data but got ' + (this.data ?
+				'instance of ' + this.data.constructor :
 				this.data));
+			}
 		}
 		
 		this.dataViewMap = {};
@@ -46,12 +50,13 @@ var JadeListView = JadeView.extend({
 	initializeLineType: function() {
 		/*this.lineType = this.options.lineType || this.lineType;
 		if(!this.lineType || !(this.lineType.prototype instanceof JadeView)) {
-			throw new Error("JadeListView requires a subtype of JadeView as lineType but got " + (this.lineType ?
-				" type " : "") + this.lineType);
+			throw new Error('JadeListView requires a subtype of JadeView as lineType but got ' + (this.lineType ?
+				' type ' : '') + this.lineType);
 		}*/
 	},
 	
 	addItem: function(item) {
+		console.log(item);
 		this.data.add(item);
 	},
 	
@@ -99,6 +104,6 @@ var JadeListView = JadeView.extend({
 	}
 });
 
-JadeListView.toString = function() {return "JadeListView";};
+JadeListView.toString = function() {return 'JadeListView';};
 
 module.exports = JadeListView;

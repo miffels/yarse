@@ -1,35 +1,36 @@
 'use strict';
 
-var Ingredient = require('../../model/ingredient/Ingredient');
-var IngredientList = require('../../model/ingredient/IngredientList');
+var Ingredient = require('../../model/ingredient/KitchenIngredient');
+var IngredientList = require('../../model/ingredient/KitchenIngredientList');
 var IngredientCategory = require('../../model/ingredient/IngredientCategory');
 var IngredientCategoryList = require('../../model/ingredient/IngredientCategoryList');
 
 function IngredientLoader() {}
 
-IngredientLoader.prototype.loadIngredients = function(kitchen) {
-		this.categories(require('./ingredients.json'), kitchen);
+IngredientLoader.prototype.loadToLocalStore = function() {
+		this.loadCategories(require('./static/ingredients.json'));
 };
 	
-IngredientLoader.prototype.categories = function(categories, kitchen) {
+IngredientLoader.prototype.loadCategories = function(categories) {
 	var ingredientCategories = new IngredientCategoryList();
-	for(var key in categories) {
-		ingredientCategories.add(new IngredientCategory({
-			name: key.nominalize(),
-			data: this.list(categories[key], key, kitchen)
-		}));
+	for(var categoryName in categories) {
+		var categoryAttributes = {
+			name: categoryName.nominalize(),
+			data: this.loadIngredients(categories[categoryName], categoryName)
+		};
+		ingredientCategories.create(categoryAttributes);
 	}
-	return ingredientCategories;
 };
 	
-IngredientLoader.prototype.list = function(category, name,kitchen) {
+IngredientLoader.prototype.loadIngredients = function(category, categoryName) {
 	var ingredientList = new IngredientList();
-	for(var i in category) {
-		ingredientList.add(new Ingredient({
-			kitchen: kitchen,
-			name: category[i].nominalize(),
-			imageUrl: 'img/' + name + '/' + category[i] + '.jpg'
-		}));
+	for(var ingredientIndex in category) {
+		var ingredientName = category[ingredientIndex].nominalize();
+		var ingredientAttributes = {
+			name: ingredientName,
+			imageUrl: 'img/' + categoryName + '/' + category[ingredientIndex] + '.jpg'
+		};
+		ingredientList.create(new Ingredient(ingredientAttributes));
 	}
 	return ingredientList;
 };

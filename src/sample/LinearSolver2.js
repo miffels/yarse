@@ -1,5 +1,5 @@
 'use strict';
-//require = require("enhanced-require")(module);
+//require = require('enhanced-require')(module);
 var LinearSolver = require('./client/numeric/LinearSolver');
 var LinearProblem = require('./client/numeric/LinearProblem');
 var Constraint = require('./client/numeric/Constraint');
@@ -10,17 +10,17 @@ var milkScore = 5;
 var stockScore = -3;
 
 var kitchen = {
-	"milk": 1000,
-	"potatos": 500,
-	"stock": 400
+	milk: 1000,
+	potatos: 500,
+	stock: 400
 };
 var mashedPotatos = {
-	"milk": 200,
-	"potatos": 600
+	milk: 200,
+	potatos: 600
 };
 var potatoSoup = {
-	"potatos": 400,
-	"stock": 500
+	potatos: 400,
+	stock: 500
 };
 
 // >

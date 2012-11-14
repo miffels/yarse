@@ -4,15 +4,19 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Model = Backbone.Model.extend({
-		typeName: 'Generic Model',
+	typeName: 'Generic Model',
 		
-		initialize: function() {
-			_.bindAll(this);
-		},
+	initialize: function() {
+		_.bindAll(this);
 		
-		toString: function() {
+		this.constructor.toString = function() {
 			return this.typeName;
-		}
+		};
+	},
+		
+	toString: function() {
+		return '[' + this.typeName + ' object]';
+	}
 });
 
 module.exports = Model;

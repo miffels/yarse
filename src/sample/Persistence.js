@@ -15,15 +15,15 @@ var ingredientCategories = new IngredientCagetoryList();
 window.localStorage.clear();
 
 var attr1 = {
-	imgageUrl: "Some URL",
-	name: "some Name",
+	imgageUrl: 'Some URL',
+	name: 'some Name',
 	kitchen: null
-}
+};
 
 var attr2 = {
-	name: "Some Category",
+	name: 'Some Category',
 	data: ingredients
-}
+};
 
 ingredients.add(new KitchenIngredient(attr1));
 ingredientCategories.create(attr2);

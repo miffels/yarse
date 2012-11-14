@@ -8,11 +8,8 @@ $(document).ready(function() {
 	var Recipe = require('../client/model/recipe/Recipe');
 	var RecipeList = require('../client/model/recipe/RecipeList');
 	var IngredientsView = require('../client/view/ingredient/IngredientsView');
-	var IngredientCategoryView = require('../client/view/ingredient/IngredientsView');
-	var Ingredient = require('../client/model/ingredient/Ingredient');
-	var IngredientList = require('../client/model/ingredient/IngredientList');
-	var IngredientCategory = require('../client/model/ingredient/IngredientCategory');
-	var IngredientCategoryList = require('../client/model/ingredient/IngredientCategoryList');
+	var IngredientLoader = require('../client/model/ingredient/IngredientLoader');
+	var Kitchen = require('../client/model/kitchen/Kitchen');
 	
 	var navigationBarContents = {
 				pageTitle: 'yarse',
@@ -38,12 +35,18 @@ $(document).ready(function() {
 			jadeParameters: navigationBarContents
 	});
 	
+	var kitchen = new Kitchen();
+	
 	var recipeList = new RecipeList([new Recipe({name: "Mashed Potatos"}), new Recipe({name: "Krautsalad"}), new Recipe({name: "DeliSoup"})]);
 	var recipeListView = new RecipeListView({
+		kitchen: kitchen,
 		data: recipeList
 	});
 	
-	var ingredientsView = new IngredientsView();
+	var ingredientsView = new IngredientsView({
+		kitchen: kitchen,
+		data: new IngredientLoader().loadIngredients(kitchen)
+	});
 	
 	bodyView.addSubview(navigationBar);
 	bodyView.addSubview(recipeListView);

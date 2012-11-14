@@ -1,15 +1,15 @@
 'use strict';
 
 var JadeListView = require('../JadeListView');
-var IngredientView = require('./IngredientView');
-var IngredientList = require('../../model/ingredient/IngredientList');
+var KitchenIngredientView = require('./KitchenIngredientView');
+var KitchenIngredientList = require('../../model/ingredient/KitchenIngredientList');
 
 var IngredientCategoryView = JadeListView.extend({
 	id: 'ingredientCategory',
 	typeName: 'IngredientCategoryView',
 	folder: 'ingredient/',
-	lineType: IngredientView,
-	dataType: IngredientList,
+	lineType: KitchenIngredientView,
+	dataType: KitchenIngredientList,
 	
 	initialize: function() {
 		JadeListView.prototype.initialize.apply(this, arguments);

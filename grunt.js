@@ -23,14 +23,7 @@ module.exports = function(grunt) {
 		},
 		lint: {
 			all : ['grunt.js',
-			'src/server/**/*.js',
-			'src/sample/**/*.js',
-			'src/client/fatsecret/**/*.js',
-			'src/client/numeric/**/*.js',
-			'src/client/recipe/**/*.js',
-			'src/client/util/**/*.js',
-			'src/client/view/**/*.js',
-			'src/*.js']
+			'src//**/*.js']
 		},
 		jshint : {
 			options : {
@@ -53,7 +46,8 @@ module.exports = function(grunt) {
 					newcap : true,
 					noarg : true,
 					nonew : true,
-					trailing : true
+					trailing : true,
+					quotmark: true
 			}
 		},
 		watch : {

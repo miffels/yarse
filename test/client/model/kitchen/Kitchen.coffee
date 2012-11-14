@@ -1,16 +1,16 @@
 'use strict'
 
 Kitchen = require '../../../../src/client/model/kitchen/Kitchen'
-IngredientList = require '../../../../src/client/model/ingredient/IngredientList'
-Ingredient = require '../../../../src/client/model/ingredient/Ingredient'
+KitchenIngredientList = require '../../../../src/client/model/ingredient/KitchenIngredientList'
+KitchenIngredient = require '../../../../src/client/model/ingredient/KitchenIngredient'
 
 describe 'Kitchen', ->
   kitchen = null
   ingredient = null
   ingredients = null
   beforeEach ->
-    ingredient = new Ingredient
-    ingredients = new IngredientList([ingredient])
+    ingredient = new KitchenIngredient
+    ingredients = new KitchenIngredientList([ingredient])
     kitchen = new Kitchen({ingredients: ingredients})
     kitchen.attributes.kitchenView = {'render': ->}
 
@@ -24,7 +24,7 @@ describe 'Kitchen', ->
       new Kitchen({ingredients: ingredients}).attributes.ingredients.should.equal ingredients
   describe '#addIngredient', ->
     it 'should add an ingredient to the kitchen', ->
-      kitchen.addIngredient(new Ingredient)
+      kitchen.addIngredient(new KitchenIngredient)
       ingredients.length.should.equal 2
   describe '#removeIngredient', ->
     it 'should remove an ingredient from the kitchen', ->

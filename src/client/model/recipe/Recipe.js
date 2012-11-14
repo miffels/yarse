@@ -11,7 +11,7 @@ var Recipe = Model.extend({
 	},
 	
 	ingredientsFromKitchen: function() {
-		return [new Ingredient({name: "Apples"}), new Ingredient({name: "Oranges"}), new Ingredient({name: "Beef"})];
+		return [new Ingredient({name: 'Apples'}), new Ingredient({name: 'Oranges'}), new Ingredient({name: 'Beef'})];
 	}
 });
 

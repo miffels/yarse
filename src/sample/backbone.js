@@ -10,43 +10,23 @@ $(document).ready(function() {
 	var IngredientsView = require('../client/view/ingredient/IngredientsView');
 	var IngredientLoader = require('../client/model/ingredient/IngredientLoader');
 	var Kitchen = require('../client/model/kitchen/Kitchen');
-	
-	var navigationBarContents = {
-				pageTitle: 'yarse',
-				items: [
-					{
-						href: 'ingredients',
-						text: 'Ingredients',
-						content: 'Ingredient grid goes here!'
-					},{
-						href: 'recipes',
-						text: 'Recipes',
-						content: 'Recipe search result list goes here!'
-					},{
-						href: 'about',
-						text: 'About',
-						content: 'Project meta info goes here!'
-					}
-				]
-	};
 
 	var bodyView = new BodyView();
 	var navigationBar = new NavigationBar({
-			jadeParameters: navigationBarContents
+			jadeParameters: require('./viewData.json')
 	});
 	
 	var kitchen = new Kitchen();
 	
-	var recipeList = new RecipeList([new Recipe({name: "Mashed Potatos"}), new Recipe({name: "Krautsalad"}), new Recipe({name: "DeliSoup"})]);
+	var recipeList = new RecipeList([new Recipe({name: 'Mashed Potatos'}), new Recipe({name: 'Krautsalad'}), new Recipe({name: 'DeliSoup'})]);
 	var recipeListView = new RecipeListView({
 		kitchen: kitchen,
 		data: recipeList
 	});
 	
-	var ingredientsView = new IngredientsView({
-		kitchen: kitchen,
-		data: new IngredientLoader().loadIngredients(kitchen)
-	});
+	window.localStorage.clear();
+	new IngredientLoader().loadToLocalStore();
+	var ingredientsView = new IngredientsView();
 	
 	bodyView.addSubview(navigationBar);
 	bodyView.addSubview(recipeListView);
@@ -63,5 +43,4 @@ $(document).ready(function() {
 	
 	recipeList.render();
 	*/
-	
 });

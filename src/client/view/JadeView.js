@@ -28,6 +28,10 @@ var JadeView = Backbone.View.extend({
 		
 		this.loadTemplate();
 		this.loadJadeParameters();
+		
+		this.constructor.toString = function() {
+			return this.typeName;
+		};
 	},
 	
 	loadTemplate: function() {
@@ -39,7 +43,7 @@ var JadeView = Backbone.View.extend({
 	verifyTemplatePath: function() {
 		this.templatePath = this.templatePath || './' + this.folder + 'template/' + this.typeName + '.jade';
 		if(typeof this.templatePath !== 'string' || !this.templatePath.endsWith('.jade')) {
-			throw new Error(this.templatePath + " is not a template file path and therefore cannot be bound to JadeView.");
+			throw new Error(this.templatePath + ' is not a template file path and therefore cannot be bound to JadeView.');
 		}
 	},
 	
@@ -88,16 +92,16 @@ var JadeView = Backbone.View.extend({
 	
 	addSubview: function(subview) {
 		if(!subview instanceof JadeView) {
-			throw new Error("Only JadeViews can be added to another JadeView. Instead, received " + subview ? "a " + subview.prototype.constructor.name : subview);
+			throw new Error('Only JadeViews can be added to another JadeView. Instead, received ' + subview ? 'a ' + subview.prototype.constructor.name : subview);
 		}
 		if(subview === this) {
-			throw new Error("Cannot add a JadeView to itself.");
+			throw new Error('Cannot add a JadeView to itself.');
 		}
 		this.subviews.push(subview);
 	},
 	
 	toString: function() {
-		return this.typeName;
+		return '[' + this.typeName + ' object]';
 	},
 	
 	addEvents: function(events) {

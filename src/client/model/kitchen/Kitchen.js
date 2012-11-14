@@ -1,7 +1,8 @@
 'use strict';
 
 var Model = require('../Model');
-var IngredientList = require('../ingredient/IngredientList');
+var IngredientList = require('../ingredient/KitchenIngredientList');
+var Backbone = require('backbone');
 
 var Kitchen = Model.extend({
 	typeName: 'Kitchen',
@@ -13,16 +14,23 @@ var Kitchen = Model.extend({
 	initialize: function() {
 		this.attributes.ingredients = this.attributes.ingredients || new IngredientList();
 		Model.prototype.initialize.apply(this, arguments);
+		Backbone.Events.bind('ingredientClicked', this.toggleIngredient);
+	},
+	
+	toggleIngredient: function(ingredient) {
+		if(this.get('ingredients').models.indexOf(ingredient) === -1) {
+			this.addIngredient(ingredient);
+		} else {
+			this.removeIngredient(ingredient);
+		}
 	},
 	
 	addIngredient: function(ingredient) {
-		console.log('adding ' + ingredient.attributes.name);
 		this.attributes.ingredients.add(ingredient);
 		this.attributes.kitchenView.render();
 	},
 	
 	removeIngredient: function(ingredient) {
-		console.log('removing ' + ingredient.attributes.name);
 		this.attributes.ingredients.remove(ingredient);
 		this.attributes.kitchenView.render();
 	}

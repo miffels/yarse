@@ -13,11 +13,6 @@ var KitchenView = JadeView.extend({
 		this.kitchen = this.options.kitchen;
 		this.kitchen.attributes.kitchenView = this;
 		this.jadeParameters.kitchen = this.kitchen.attributes.ingredients.models;
-	},
-	
-	render: function() {
-		JadeView.prototype.render.apply(this, arguments);
-		console.log(this.jadeParameters.kitchen);
 	}
 });
 

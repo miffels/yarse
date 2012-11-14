@@ -13,6 +13,12 @@ var IngredientsView = JadeListView.extend({
 	lineType: IngredientCategoryView,
 	dataType: IngredientCategoryList,
 	
+	initialize: function() {
+		this.data = new this.dataType();
+		this.data.fetch();
+		JadeListView.prototype.initialize.apply(this, arguments);
+	},
+	
 	setSubviewID: function(view) {
 		return view;
 	}

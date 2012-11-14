@@ -1,18 +1,22 @@
 'use strict';
 
 var JadeView = require('../JadeView');
+var Backbone = require('backbone');
 
 var KitchenView = JadeView.extend({
 	id: 'selectedIngredients',
 	typeName: 'KitchenView',
 	folder: 'kitchen/',
-	kitchen: null,
 	
 	initialize: function() {
 		JadeView.prototype.initialize.apply(this, arguments);
-		this.kitchen = this.options.kitchen;
-		this.kitchen.attributes.kitchenView = this;
-		this.jadeParameters.kitchen = this.kitchen.attributes.ingredients.models;
+		this.jadeParameters.kitchen = [];
+		Backbone.Events.bind('kitchenChanged', this.onKitchenChange);
+	},
+	
+	onKitchenChange: function(ingredients) {
+		this.jadeParameters.kitchen = ingredients.models;
+		this.render();
 	}
 });
 

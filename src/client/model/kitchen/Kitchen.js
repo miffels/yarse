@@ -7,8 +7,7 @@ var Backbone = require('backbone');
 var Kitchen = Model.extend({
 	typeName: 'Kitchen',
 	defaults: {
-		ingredients: null,
-		kitchenView: null
+		ingredients: null
 	},
 	
 	initialize: function() {
@@ -23,16 +22,15 @@ var Kitchen = Model.extend({
 		} else {
 			this.removeIngredient(ingredient);
 		}
+		Backbone.Events.trigger('kitchenChanged', this.get('ingredients'));
 	},
 	
 	addIngredient: function(ingredient) {
 		this.attributes.ingredients.add(ingredient);
-		this.attributes.kitchenView.render();
 	},
 	
 	removeIngredient: function(ingredient) {
 		this.attributes.ingredients.remove(ingredient);
-		this.attributes.kitchenView.render();
 	}
 });
 

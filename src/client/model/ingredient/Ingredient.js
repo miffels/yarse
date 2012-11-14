@@ -6,8 +6,6 @@ var Ingredient = Model.extend({
 	typeName: 'Ingredient',
 	defaults: {
 		name: null,
-		imageUrl: 'img/dummy.png',
-		kitchen: null
 	},
 	
 	initialize: function() {

@@ -8,8 +8,7 @@ var IngredientCategoryList = require('../../model/ingredient/IngredientCategoryL
 function IngredientLoader() {}
 
 IngredientLoader.prototype.loadIngredients = function(kitchen) {
-		var data = this.categories(require('./ingredients.json'), kitchen);
-		return data;
+		this.categories(require('./ingredients.json'), kitchen);
 };
 	
 IngredientLoader.prototype.categories = function(categories, kitchen) {

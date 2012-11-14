@@ -1,4 +1,15 @@
-.thumbnail
-	a(href="#").thumbnail
-		img(src="img/dummy.png").flexible
-div= recipe.name
+a(href="#").recipe
+	.row
+		.span1
+			.thumbnail
+				img(src= recipe.imageUrl).flexible
+		.span5
+			.recipeName= recipe.name
+			.recipeIngredientShort
+				- if(ingredientsFromKitchen.length)
+					| with 
+					each ingredient, index in ingredientsFromKitchen
+						- if(index)
+							| , #{ingredient.attributes.name}
+						- else
+							| #{ingredient.attributes.name}

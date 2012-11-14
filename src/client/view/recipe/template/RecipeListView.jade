@@ -1,5 +1,7 @@
 div(id= id)
 	h1 Recipes
 	#selectedIngredients
-	each recipeView in subviews
+	each recipeView, index in subviews
+		- if(index)
+			hr.recipe
 		div(id= recipeView.id)

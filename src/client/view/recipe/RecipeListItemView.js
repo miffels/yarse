@@ -10,6 +10,7 @@ var RecipeListItemView = JadeView.extend({
 	initialize: function() {
 		JadeView.prototype.initialize.apply(this, arguments);
 		this.jadeParameters.recipe = this.options.attributes;
+		this.jadeParameters.ingredientsFromKitchen = this.options.ingredientsFromKitchen();
 	}
 });
 

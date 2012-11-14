@@ -1,27 +1,72 @@
 @import "../../../../web_modules/bootstrap/less/bootstrap.less";
 
 body {
-  padding-top: 60px;
+	padding-top: 60px;
 }
 
 div.thumbnail {
-  max-height: 50px; max-width: 50px;
+	max-height: 50px; max-width: 50px;
 }
 img.flexible {
-  max-height: 100%; max-width: 100%;
+	max-height: 100%; max-width: 100%;
 }
 
 a.ingredient {
-  display: block;
-  padding: 4px;
-  line-height: @baseLineHeight;
-  border: 1px solid #ddd;
-  .border-radius(4px);
-  .box-shadow(0 1px 3px rgba(0,0,0,.055));
-  .transition(all .2s ease-in-out);
+	display: block;
+	padding: 4px;
+	line-height: @baseLineHeight;
+	border: 1px solid #ddd;
+	.border-radius(4px);
+	.box-shadow(0 1px 3px rgba(0,0,0,.055));
+	.transition(all .2s ease-in-out);
 }
 
 a.active-ingredient {
-  border-color: @green;
-  .box-shadow(0 1px 4px rgba(0,105,214,.25));
+	border-color: @green;
+	.box-shadow(0 1px 4px rgba(0,105,214,.25));
+}
+
+.recipeName {
+	font-weight: bold;
+}
+
+.recipeIngredientShort {
+	color: @grayLight; font-style: italic;
+}
+
+#selectedIngredients {
+	font-style: italic; margin-bottom: 20px;
+}
+
+a.recipe {
+	border: 1px solid @white;
+	display: block;
+	color: @black;
+	padding: 4px;
+	.box-shadow(0 0px 0px rgba(0,0,0,.0));
+	.transition(all .2s ease-in-out);
+}
+
+a.recipe:hover {
+	border-color: @linkColor;
+	.border-radius(4px);
+	.box-shadow(0 1px 4px rgba(0,105,214,.25));
+}
+
+
+/* source: http://css-tricks.com/examples/hrs/ */		
+hr.recipe {
+  margin: 0px;
+	border: 0;
+	height: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+h1 {
+  font-size: 18pt;
+}
+
+.categoryName {
+  font-weight: bold; font-size: 12pt; margin-bottom: 10px; margin-top: 10px;
 }

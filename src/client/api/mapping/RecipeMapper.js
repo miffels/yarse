@@ -1,12 +1,14 @@
 'use strict';
 
+var Mapper = require('./Mapper');
+
 function RecipeMapper() {}
 
 RecipeMapper.prototype = new Mapper();
 RecipeMapper.prototype.constructor = RecipeMapper;
 
 RecipeMapper.prototype.mapRecipes = function(rawData) {
-	var recipes = this.mapArray(rawData.recipes.recipe, require('./map/recipeAttributeMap'));
+	var recipes = this.mapAsArray(rawData.recipes.recipe, require('./map/recipeAttributeMap'));
 	
 	recipes.forEach(function(recipe) {
 		if(recipe.directions) {
@@ -19,25 +21,25 @@ RecipeMapper.prototype.mapRecipes = function(rawData) {
 			recipe.categories = this.mapCategories(recipe.categories);
 		}
 		if(recipe.images) {
-			recipe.images = this.mapArray(recipe.images);
+			recipe.images = this.mapAsArray(recipe.images);
 		}
 		if(recipe.types) {
-			recipe.types = this.mapArray(recipe.types);
+			recipe.types = this.mapAsArray(recipe.types);
 		}
 	}.bind(this));
 	return recipes;
 };
 
 RecipeMapper.prototype.mapDirections = function(rawData) {
-	return this.mapArray(rawData, require('./map/directionAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/directionAttributeMap'));
 };
 
 RecipeMapper.prototype.mapIngredients = function(rawData) {
-	return this.mapArray(rawData, require('./map/ingredientAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/ingredientAttributeMap'));
 };
 
 RecipeMapper.prototype.mapCategories = function(rawData) {
-	return this.mapArray(rawData, require('./map/categoryAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/categoryAttributeMap'));
 };
 
 module.exports = RecipeMapper;

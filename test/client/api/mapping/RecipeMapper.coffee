@@ -3,7 +3,7 @@
 RecipeMapper = require '../../../../src/client/api/mapping/RecipeMapper'
 
 describe 'Mapper', ->
-  mapper = null;
+  mapper = null
   beforeEach ->
     mapper = new RecipeMapper
   

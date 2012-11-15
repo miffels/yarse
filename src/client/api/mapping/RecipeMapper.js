@@ -1,5 +1,7 @@
 'use strict';
 
+var Mapper = require('./Mapper');
+
 function RecipeMapper() {}
 
 RecipeMapper.prototype = new Mapper();

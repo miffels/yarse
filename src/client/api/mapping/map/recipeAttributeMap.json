@@ -1,0 +1,14 @@
+{
+	"recipe_categories.recipe_category": "categories",
+	"cooking_time_min": "cookingTime",
+	"recipe_description": "description",
+	"directions.direction": "directions",
+	"recipe_id": "id",
+	"recipe_images.recipe_image": "images",
+	"ingredients.ingredient": "ingredients",
+	"recipe_name": "name",
+	"number_of_servings": "numberOfServings",
+	"preparation_time_min": "preparationTime",
+	"rating": "rating",
+	"recipe_types.recipe_type": "types"
+}

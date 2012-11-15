@@ -1,7 +1,7 @@
 'use strict';
 
-function LinearProblem(minimizationFunction, inequalityConstraint, equalityConstraint) {
-	this.minimizationFunction = minimizationFunction;
+function LinearProblem(objectiveFunction, inequalityConstraint, equalityConstraint) {
+	this.objectiveFunction = objectiveFunction;
 	this.equalityConstraint = equalityConstraint;
 	this.inequalityConstraint = inequalityConstraint;
 }

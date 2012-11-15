@@ -1,0 +1,7 @@
+{
+	"ingredient_description": "description",
+	"food_id": "id",
+	"food_name": "name",
+	"measurement_description": "unit",
+	"number_of_units": "units"
+}

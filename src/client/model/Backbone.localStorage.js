@@ -27,14 +27,30 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 
-// Generate four random hex digits.
-function S4() {
-	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+// Generate random hex digits
+
+function S(factor) {
+	return (((1+Math.random())*factor)|0).toString(16).substring(1);
 }
 
-// Generate a pseudo-GUID by concatenating random hexadecimal.
+// Generate 4 digits
+function S4() {
+	return S(0x10000);
+}
+
+// Generate 3 digits
+function S3() {
+	return S(0x1000);
+}
+
+// Generate 1 digit btwn 8 and B
+function S1() {
+	return ((((Math.random()*0x4) - 0x8/0x10)|0) + 0x8).toString(16);
+}
+
+// Generate RFC 4122 type 4 GUID
 function guid() {
-	return (S4()+S4()+'-'+S4()+'-'+S4()+'-'+S4()+'-'+S4()+S4()+S4());
+	return (S4()+S4()+'-'+S4()+'-4'+S3()+'-'+S1()+S3()+'-'+S4()+S4()+S4());
 }
 
 // Our Store is represented by a single JS object in *localStorage*. Create it

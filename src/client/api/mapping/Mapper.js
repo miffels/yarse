@@ -2,18 +2,18 @@
 
 function Mapper() {}
 
-Mapper.prototype.mapArray = function(array, attributeMap) {
-	if(!array) {
+Mapper.prototype.mapAsArray = function(anyObject, attributeMap) {
+	if(!anyObject) {
 		return [];
 	}
 	if(!attributeMap) {
-		return array instanceof Array ? array : [array];
+		return anyObject instanceof Array ? anyObject : [anyObject];
 	}
-	return array instanceof Array ? this.mapAll(array, attributeMap)
-		: [this.map(array, attributeMap)];
+	return anyObject instanceof Array ? this.mapArray(anyObject, attributeMap)
+		: [this.map(anyObject, attributeMap)];
 };
 
-Mapper.prototype.mapAll = function(remoteEntities, attributeMap) {
+Mapper.prototype.mapArray = function(remoteEntities, attributeMap) {
 	var localEntities = [];
 	for(var index in remoteEntities) {
 		var remoteEntity = remoteEntities[index];

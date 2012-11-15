@@ -27,13 +27,13 @@ describe 'Mapper', ->
   
   describe '#mapAll', ->
     it 'should map the attributes of several remote entities to local objects', ->
-      mapper.mapAll(remoteObjectArray, attributeMap).should.eql localObjectArray
-  
-  describe '#mapArray', ->
-    it 'should abstract the mapping issues with arrays, i.e. it may be undefined or any object (crappy API)', ->
-      mapper.mapArray(null, null).should.eql []
-      mapper.mapArray(remoteObject1, attributeMap).should.eql [localObject1]
       mapper.mapArray(remoteObjectArray, attributeMap).should.eql localObjectArray
+  
+  describe '#mapAsArray', ->
+    it 'should abstract the mapping issues with arrays, i.e. it may be undefined or any object (crappy API)', ->
+      mapper.mapAsArray(null, null).should.eql []
+      mapper.mapAsArray(remoteObject1, attributeMap).should.eql [localObject1]
+      mapper.mapAsArray(remoteObjectArray, attributeMap).should.eql localObjectArray
     it 'should be able to convert objects if no attribute map is present, just by turning them into arrays', ->
-      mapper.mapArray(string, null).should.eql [string]
-      mapper.mapArray(stringArray, null).should.eql stringArray
+      mapper.mapAsArray(string, null).should.eql [string]
+      mapper.mapAsArray(stringArray, null).should.eql stringArray

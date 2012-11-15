@@ -20,19 +20,19 @@ ProblemGenerator.prototype.using = function(recipes) {
 
 ProblemGenerator.prototype.generateSortingProblem = function (recipes) {
 	return new LinearProblem(
-		this.generateMinimizationFunction(recipes),
+		this.generateObjectiveFunction(recipes),
 		this.generateInequalityConstraint(recipes),
 		this.generateEqualityConstraint(recipes)
 	);
 };
 
-ProblemGenerator.prototype.generateMinimizationFunction = function(recipes) {
-	var minimizationFunction = [];
+ProblemGenerator.prototype.generateObjectiveFunction = function(recipes) {
+	var objectiveFunction = [];
 	for(var i = 0; i < recipes.length; i++) {
 		var recipe = recipes[i];
-		minimizationFunction.push(-recipe.score);
+		objectiveFunction.push(-recipe.score);
 	}
-	return minimizationFunction;
+	return objectiveFunction;
 };
 
 ProblemGenerator.prototype.generateInequalityConstraint = function(recipes) {

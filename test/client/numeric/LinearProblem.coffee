@@ -10,8 +10,8 @@ describe 'LinearProblem', ->
 	beforeEach ->
 		linearProblem = new LinearProblem(someArray, constraint, constraint);
 	it 'should have a minimization function', ->
-		linearProblem.should.have.property 'minimizationFunction'
-		linearProblem.minimizationFunction.should.equal someArray
+		linearProblem.should.have.property 'objectiveFunction'
+		linearProblem.objectiveFunction.should.equal someArray
 	it 'should have an inequalityConstraint', ->
 		linearProblem.should.have.property 'inequalityConstraint'
 		linearProblem.inequalityConstraint.should.equal constraint

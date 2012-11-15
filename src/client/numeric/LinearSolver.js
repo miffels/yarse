@@ -13,7 +13,7 @@ LinearSolver.prototype.solve = function(linearProblem) {
 		throw new Error('Argument of type ' + linearProblem.constructor.name + ' ist not a LinearProblem');
 	}
 	var solution = this.numeric.solveLP(
-		linearProblem.minimizationFunction,
+		linearProblem.objectiveFunction,
 		linearProblem.inequalityConstraint.leftHandSide,
 		linearProblem.inequalityConstraint.rightHandSide,
 		linearProblem.equalityConstraint.leftHandSide,

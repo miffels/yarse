@@ -56,5 +56,5 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('default', 'lint simplemocha watch');
+	grunt.registerTask('default', 'lint simplemocha');
 };

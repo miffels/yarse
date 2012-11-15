@@ -14,7 +14,7 @@ FatSecret.prototype.getRecipesFor = function(kitchen, callback) {
 	
 	requestBlank.makeRequest(function(url) {
 		this.resolve(url, callback);
-	});
+	}.bind(this));
 };
 
 FatSecret.prototype.fetchRecipe = function(id, callback) {
@@ -24,25 +24,7 @@ FatSecret.prototype.fetchRecipe = function(id, callback) {
 	
 	requestBlank.makeRequest(function (url) {
 		this.resolve(url, callback);
-	});
-};
-
-FatSecret.prototype.mapAll = function(remoteEntities, attributeMap) {
-	var localEntities = [];
-	for(var index in remoteEntities) {
-		var remoteEntity = remoteEntities[index];
-		localEntities.push(this.map(remoteEntity, attributeMap));
-	}
-	return localEntities;
-};
-
-FatSecret.prototype.map = function(remoteEntity, attributeMap) {
-	var localEntityAttributes = {};
-	for(var remoteAttributeName in attributeMap) {
-		var localAttributeName = attributeMap[remoteAttributeName];
-		localEntityAttributes[localAttributeName] = remoteEntity[remoteAttributeName];
-	}
-	return localEntityAttributes;
+	}.bind(this));
 };
 
 FatSecret.prototype.resolve = function(url, done) {
@@ -60,7 +42,7 @@ FatSecret.prototype.buildSearchStringFrom = function(kitchenContents) {
 	var separator = '';
 	kitchenContents.each(function (ingredient) {
 		searchString = searchString + separator + ingredient.get('name');
-		separator = ' ';
+		separator = ',';
 	});
 	return searchString;
 };

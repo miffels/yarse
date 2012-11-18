@@ -1,7 +1,9 @@
-div(id= id)
-	h1 Recipes
-	#selectedIngredients
+h1 Recipes
+#selectedIngredients
+- if(subviews.length)
 	each recipeView, index in subviews
 		- if(index)
 			hr.recipe
 		div(id= recipeView.id)
+- else
+	| There are no recipes to be displayed

@@ -9,8 +9,8 @@ var KitchenIngredient = Ingredient.extend({
 	},
 	
 	initialize: function() {
-		Ingredient.prototype.initialize.apply(this);
-		this.id = this.attributes.name;
+		this.set('id', this.get('name'));
+		Ingredient.prototype.initialize.apply(this, arguments);
 	}
 });
 

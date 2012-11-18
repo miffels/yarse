@@ -10,18 +10,36 @@
  *		- module.exports now returns the LocalStorage constructor
  *		- use it traditionally (new Backbone.LocalStorage) or like this: localStorage: new require('path/to/Backbone.localStorage.js')('SomeCollection')
  *		- replaced global localStorage with _localStorage
- *		- _localStorage contains localStorage if it was defined before and {} otherwise
+ *		- _localStorage contains localStorage if it was defined before and a {@link NodePolyfill} instance otherwise
+ *		- changed UUID generation to RFC 4122 compliant type 4 UUID
  */
 
 // A simple module to replace `Backbone.sync` with *localStorage*-based
 // persistence. Models are given GUIDS, and saved into a JSON object. Simple
 // as that.
 
-// Hold reference to Underscore.js and Backbone.js in the closure in order
-// to make things work even if they are removed from the global namespace
+/**
+ * @class NodePolyfill
+ *
+ * A class that is meant to fill the gap between node and HTML browser environments.
+ *
+ * It mimics the localStorage behavior for setting and retrieving values, but does not persist them.
+ * When the application is restarted, the NodePolyfill will start empty again.
+ */
+function NodePolyfill() {
+	this.records = {};
+}
+
+NodePolyfill.prototype.getItem = function(id) {
+	return this.records[id];
+};
+
+NodePolyfill.prototype.setItem = function(id, objectString) {
+	this.records[id] = objectString;
+};
 
 /*global localStorage*/
-var _localStorage = typeof localStorage === 'undefined' ? {getItem: function() {return null;}} : localStorage;
+var _localStorage = typeof localStorage === 'undefined' ? new NodePolyfill() : localStorage;
 
 var $ = require('jquery');
 var _ = require('underscore');
@@ -56,21 +74,32 @@ function guid() {
 // Our Store is represented by a single JS object in *localStorage*. Create it
 // with a meaningful name, like the name you'd give a table.
 // window.Store is deprectated, use Backbone.LocalStorage instead
+/**
+ * @class LocalStorage
+ * @param {String} name The name of storage, i.e. the equivalent of a database table name.
+ */
 function LocalStorage(name) {
 	this.name = name;
 	var store = this.localStorage().getItem(this.name);
 	this.records = (store && store.split(',')) || [];
 }
 
-_.extend(LocalStorage.prototype, {
+_.extend(LocalStorage.prototype, /** @lends LocalStorage*/ {
 
-	// Save the current state of the **Store** to *localStorage*.
+	/**
+	 * Saves the current state of the {@link LocalStorage} to the HTML localStorage.
+	 */
 	save: function() {
 		this.localStorage().setItem(this.name, this.records.join(','));
 	},
 
 	// Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
 	// have an id of it's own.
+	/**
+	 *
+	 *
+	 * @param {Object} model The Backbone.Model to save
+	 */
 	create: function(model) {
 		if (!model.id) {
 				model.id = guid();

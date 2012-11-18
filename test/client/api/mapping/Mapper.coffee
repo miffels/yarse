@@ -3,7 +3,7 @@
 Mapper = require '../../../../src/client/api/mapping/Mapper'
 
 describe 'Mapper', ->
-  mapper = null;
+  mapper = null
   remoteObject1 = {remote_id: '1'}
   remoteObject2 = {remote_id: '2'}
   remoteObject3 = {a: {b: {c: {d: '1'}}}}
@@ -14,7 +14,7 @@ describe 'Mapper', ->
   remoteObjectArray = [remoteObject1, remoteObject2]
   localObjectArray = [localObject1, localObject2]
   string = "ws"
-  stringArray = ["ws", "da"];
+  stringArray = ["ws", "da"]
   beforeEach ->
     mapper = new Mapper
   

@@ -2,13 +2,13 @@ a(href="#").recipe
 	.row
 		.span1
 			.thumbnail
-				img(src= recipe.imageUrl).flexible
+				img(src= recipe.images[0]).flexible
 		.span5
 			.recipeName= recipe.name
 			.recipeIngredientShort
-				- if(ingredientsFromKitchen.length)
+				- if(recipe.ingredientsFromKitchen.length)
 					| with 
-					each ingredient, index in ingredientsFromKitchen
+					each ingredient, index in recipe.ingredientsFromKitchen
 						- if(index)
 							| , #{ingredient.attributes.name}
 						- else

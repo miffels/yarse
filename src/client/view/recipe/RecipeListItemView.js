@@ -6,11 +6,17 @@ var RecipeListItemView = JadeView.extend({
 	id: 'recipe',
 	typeName: 'RecipeListItemView',
 	folder: 'recipe/',
+	recipe: null,
 	
 	initialize: function() {
 		JadeView.prototype.initialize.apply(this, arguments);
-		this.jadeParameters.recipe = this.options.attributes;
-		this.jadeParameters.ingredientsFromKitchen = this.options.ingredientsFromKitchen();
+		this.recipe = this.options;
+		this.setJadeParameters();
+	},
+	
+	setJadeParameters: function() {
+		this.jadeParameters.recipe = this.recipe.attributes;
+		console.log(this.jadeParameters.recipe);
 	}
 });
 

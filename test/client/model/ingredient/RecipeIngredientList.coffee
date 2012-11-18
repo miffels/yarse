@@ -8,9 +8,9 @@ describe 'RecipeIngredientList', ->
   ingredients = null
   beforeEach ->
     ingredients = [new RecipeIngredient, new RecipeIngredient, new RecipeIngredient]
-    ingredients[0].id = '0'
-    ingredients[1].id = '1'
-    ingredients[2].id = '2'
+    ingredients[0].set('id', '0')
+    ingredients[1].set('id', '1')
+    ingredients[2].set('id', '2')
     ingredientList = new RecipeIngredientList(ingredients)
   
   describe '#filterById', ->

@@ -1,25 +1,15 @@
 'use strict';
 
-var Collection = require('../Collection');
 var RecipeIngredient = require('./RecipeIngredient');
+var IngredientList = require('./IngredientList');
 
-var RecipeIngredientList = Collection.extend({
+var RecipeIngredientList = IngredientList.extend({
 	typeName: 'RecipeIngredientList',
 	model: RecipeIngredient,
 	
-	filter: function(iterator) {
-		var ingredientList = new RecipeIngredientList();
-		this.each(function(ingredient) {
-			if(iterator(ingredient)) {
-				ingredientList.add(ingredient);
-			}
-		});
-		return ingredientList;
-	},
-	
 	filterById: function(ids) {
 		return this.filter(function(ingredient) {
-			return ids.indexOf(ingredient.id) !== -1;
+			return ids.indexOf(ingredient.get('id')) !== -1;
 		});
 	}
 });

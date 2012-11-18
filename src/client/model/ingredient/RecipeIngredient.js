@@ -11,7 +11,6 @@ var RecipeIngredient = Ingredient.extend({
 	
 	initialize: function() {
 		Ingredient.prototype.initialize.apply(this);
-		this.id = this.get('id');
 		this.initializeTransientData();
 	},
 	

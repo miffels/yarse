@@ -1,7 +1,7 @@
 'use strict';
 
 var Model = require('../Model');
-var Ingredient = require('../ingredient/Ingredient');
+var KitchenIngredientList = require('../ingredient/KitchenIngredientList');
 
 var Recipe = Model.extend({
 	typeName: 'Recipe',
@@ -17,20 +17,33 @@ var Recipe = Model.extend({
 		numberOfServings: null,
 		preparationTime: null,
 		rating: null,
-		types: null
+		types: null,
+		ingredientsFromKitchen: null,
+		kitchen: null
 	},
 	
 	initialize: function() {
 		Model.prototype.initialize.apply(this, arguments);
 		this.setDefaultImage();
+		this.calculateKitchenOverlap();
 	},
 	
 	setDefaultImage: function() {
-		this.images = this.images && this.images.length ? this.images : ['http://a.ftscrt.com/static/recipe/c24ef376-00c4-46b7-8add-c6a65913eece.jpg'];
+		var images = this.images && this.images.length ? this.images : ['http://a.ftscrt.com/static/images/box/recipe_default.jpg'];
+		this.set('images', images);
 	},
 	
-	ingredientsFromKitchen: function() {
-		return [new Ingredient({name: 'Apples'}), new Ingredient({name: 'Oranges'}), new Ingredient({name: 'Beef'})];
+	calculateKitchenOverlap: function() {
+		var kitchenIngredientNames = [];
+		var kitchen = this.get('kitchen');
+		if(!kitchen) {
+			this.ingredientsFromKitchen = new KitchenIngredientList();
+			return;
+		}
+		kitchen.get('ingredients').each(function(ingredient) {
+			kitchenIngredientNames.push(ingredient.get('name'));
+		});
+		this.set('ingredientsFromKitchen', kitchen.get('ingredients').filterByName(kitchenIngredientNames));
 	}
 });
 

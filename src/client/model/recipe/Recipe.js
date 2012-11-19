@@ -19,7 +19,14 @@ var Recipe = Model.extend({
 		rating: null,
 		types: null,
 		ingredientsFromKitchen: null,
-		kitchen: null
+		kitchen: null,
+		scoreWeights: {
+			'viewed': 0,
+			'dismissed': -3,
+			'chosen': 5,
+			'ignored': -2,
+			'rating': 1
+		}
 	},
 	
 	initialize: function() {
@@ -29,7 +36,7 @@ var Recipe = Model.extend({
 	},
 	
 	setDefaultImage: function() {
-		var images = this.images && this.images.length ? this.images : ['http://a.ftscrt.com/static/images/box/recipe_default.jpg'];
+		var images = this.get('images') && this.get('images').length ? this.get('images') : ['http://a.ftscrt.com/static/images/box/recipe_default.jpg'];
 		this.set('images', images);
 	},
 	
@@ -37,13 +44,50 @@ var Recipe = Model.extend({
 		var kitchenIngredientNames = [];
 		var kitchen = this.get('kitchen');
 		if(!kitchen) {
-			this.ingredientsFromKitchen = new KitchenIngredientList();
+			this.set('ingredientsFromKitchen', new KitchenIngredientList());
 			return;
 		}
 		kitchen.get('ingredients').each(function(ingredient) {
 			kitchenIngredientNames.push(ingredient.get('name'));
 		});
 		this.set('ingredientsFromKitchen', kitchen.get('ingredients').filterByName(kitchenIngredientNames));
+	},
+	
+	increaseIngredientProperty: function(property) {
+		this.get('ingredients').forEach(function(ingredient) {
+			ingredient.set(property, ingredient.get(property) + 1);
+			ingredient.save();
+		});
+	},
+	
+	view: function() {
+		this.increaseIngredientProperty('viewed');
+	},
+	
+	dismiss: function() {
+		this.increaseIngredientProperty('dismissed');
+	},
+	
+	choose: function() {
+		this.increaseIngredientProperty('chosen');
+	},
+	
+	ignore: function() {
+		this.increaseIngredientProperty('ignored');
+	},
+	
+	score: function() {
+		var rating = this.get('rating');
+		var score = (rating instanceof Number ? rating : parseInt(rating, 10));
+		score *= this.get('scoreWeights')['rating'];
+		this.get('ingredients').forEach(function(ingredient) {
+			for(var scoreWeight in this.get('scoreWeights')) {
+				if(ingredient.attributes.hasOwnProperty(scoreWeight)) {
+					score += this.get('scoreWeights')[scoreWeight] * ingredient.get(scoreWeight);
+				}
+			}
+		}.bind(this));
+		return score;
 	}
 });
 

@@ -1,15 +1,18 @@
-a(href="#").recipe
+- var detailId = id+"Detail"
+a(href= "#" + detailId, role="button", data-toggle="modal").recipe
 	.row
 		.span1
 			.thumbnail
 				img(src= recipe.images[0]).flexible
 		.span5
 			.recipeName= recipe.name
-			.recipeIngredientShort
-				- if(recipe.ingredientsFromKitchen.length)
-					| with 
-					each ingredient, index in recipe.ingredientsFromKitchen
-						- if(index)
-							| , #{ingredient.attributes.name}
-						- else
-							| #{ingredient.attributes.name}
+			//.recipeIngredientShort
+			//	- if(recipe.ingredientsFromKitchen.length)
+			//		| with 
+			//		each ingredient, index in recipe.ingredientsFromKitchen.models
+			//			- if(index)
+			//				| , #{ingredient.get('name')}
+			//			- else
+			//				| #{ingredient.get('name')}
+			.recipeIngredientShort= recipe.description
+div(id= detailId, tabIndex="-1", role="dialog", aria-labelledby=detailId + "Label", aria-hidden="true").modal.hide.fade

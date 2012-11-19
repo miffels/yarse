@@ -4,6 +4,7 @@ var $ = require('jquery');
 var yarseConfiguration = require('../../../../package.json').yarse;
 var OAuthRequestBlank = require('./OAuthRequestBlank');
 var OAuthBaseParameters = require('../../../../config/oauth');
+var ErrorView = require('../../view/common/ErrorView');
 
 function FatSecretRequestBlank(parameters) {
 	OAuthRequestBlank.call(this, parameters ? parameters : new OAuthBaseParameters(), yarseConfiguration.baseUrl);
@@ -16,7 +17,8 @@ OAuthRequestBlank.prototype.signature = function(stringifiedParameters, callback
 	var signatureBaseString = encodeURIComponent(this.getSignatureBaseString(stringifiedParameters));
 	var accessSecret = yarseConfiguration.accessSecret ? yarseConfiguration.accessSecret : '';
 	var signatureServerAddress = yarseConfiguration.signatureServer + ':' + yarseConfiguration.signatureServerPort +
-	'?data=' + signatureBaseString +
+	'?yarseMethod=' + yarseConfiguration.signatureMethod +
+	'&data=' + signatureBaseString +
 	'&accessSecret=' + accessSecret;
 	
 	$.ajax({
@@ -24,7 +26,7 @@ OAuthRequestBlank.prototype.signature = function(stringifiedParameters, callback
 	}).done(function(signature) {
 		callback(signature);
 	}).error(function(error) {
-		console.log('Could not contact signature server. The following error occured:');
+		new ErrorView({message: 'Are you sure the required node server is up, running and configured?'}).render();
 		console.log(error.responseText);
 	});
 };

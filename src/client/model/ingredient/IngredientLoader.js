@@ -10,9 +10,15 @@ function IngredientLoader() {}
 IngredientLoader.prototype.loadToLocalStore = function() {
 		this.loadCategories(require('./static/ingredients.json'));
 };
-	
+
 IngredientLoader.prototype.loadCategories = function(categories) {
 	var ingredientCategories = new IngredientCategoryList();
+	
+	ingredientCategories.fetch();
+	if(ingredientCategories.length) {
+		console.log('IngredientCategory-LocalStorage not empty.');
+	}
+	
 	for(var categoryName in categories) {
 		var categoryAttributes = {
 			name: categoryName.nominalize(),

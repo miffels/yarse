@@ -5,7 +5,7 @@ var Model = require('../Model');
 var Ingredient = Model.extend({
 	typeName: 'Ingredient',
 	defaults: {
-		name: null
+		id: null
 	},
 	
 	initialize: function() {

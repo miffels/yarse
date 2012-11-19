@@ -8,7 +8,7 @@ RecipeMapper.prototype = new Mapper();
 RecipeMapper.prototype.constructor = RecipeMapper;
 
 RecipeMapper.prototype.mapRecipes = function(rawData) {
-	var recipes = this.mapAsArray(rawData.recipes.recipe, require('./map/recipeAttributeMap'));
+	var recipes = this.mapAsArray(rawData.recipes ? rawData.recipes.recipe : rawData.recipe, require('./map/recipeAttributeMap.json'));
 	
 	recipes.forEach(function(recipe) {
 		if(recipe.directions) {
@@ -31,15 +31,15 @@ RecipeMapper.prototype.mapRecipes = function(rawData) {
 };
 
 RecipeMapper.prototype.mapDirections = function(rawData) {
-	return this.mapAsArray(rawData, require('./map/directionAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/directionAttributeMap.json'));
 };
 
 RecipeMapper.prototype.mapIngredients = function(rawData) {
-	return this.mapAsArray(rawData, require('./map/ingredientAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/ingredientAttributeMap.json'));
 };
 
 RecipeMapper.prototype.mapCategories = function(rawData) {
-	return this.mapAsArray(rawData, require('./map/categoryAttributeMap'));
+	return this.mapAsArray(rawData, require('./map/categoryAttributeMap.json'));
 };
 
 module.exports = RecipeMapper;

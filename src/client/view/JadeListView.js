@@ -55,8 +55,11 @@ var JadeListView = JadeView.extend({
 		}*/
 	},
 	
+	addItems: function(items) {
+		items.each(this.addItem);
+	},
+	
 	addItem: function(item) {
-		console.log(item);
 		this.data.add(item);
 	},
 	

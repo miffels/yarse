@@ -84,7 +84,7 @@ var JadeView = Backbone.View.extend({
 	},
 	
 	renderSubviews: function() {
-		console.log('Rendering subviews (' + this.subviews.length + ') of ' + this.typeName + ' (id: ' + this.id + ')');
+		//console.log('Rendering subviews (' + this.subviews.length + ') of ' + this.typeName + ' (id: ' + this.id + ')');
 		this.subviews.forEach(function(subview) {
 			subview.render();
 		});

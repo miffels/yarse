@@ -15,7 +15,8 @@ describe 'SignatureServer', ->
 
   describe '#sign', ->
     it 'should sign correctly', ->
-      data = 'bs'
+      signatureServer.query = {}
+      signatureServer.query.data = 'bs'
+      signatureServer.query.accessSecret = ''
       consumerSecret = 'cs'
-      accessSecret = ''
-      signatureServer.sign(data, accessSecret, consumerSecret).should.equal 'egQqG5AJep5sJ7anhXju1unge2I%3D'
+      signatureServer.sign(consumerSecret).should.equal 'egQqG5AJep5sJ7anhXju1unge2I%3D'

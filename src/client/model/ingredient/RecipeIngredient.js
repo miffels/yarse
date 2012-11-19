@@ -6,7 +6,10 @@ var RecipeIngredient = Ingredient.extend({
 	typeName: 'RecipeIngredient',
 	defaults: {
 		id: null,
-		transientData: null
+		viewed: 0,
+		dismissed: 0,
+		chosen: 0,
+		ignored: 0
 	},
 	
 	initialize: function() {
@@ -17,8 +20,13 @@ var RecipeIngredient = Ingredient.extend({
 	initializeTransientData: function() {
 		this.transientData = {};
 		this.setTransient(this.get('transientData'));
+		var attributes = {};
+		for(var key in this.defaults) {
+			attributes[key] = this.attributes[key] || this.defaults[key];
+		}
+		this.attributes = attributes;
 		this.set({
-			transientData: null
+			id: this.id
 		}); // Must not be persisted according to the FatSecret license agreement
 	},
 	

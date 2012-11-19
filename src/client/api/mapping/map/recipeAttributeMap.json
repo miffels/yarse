@@ -4,6 +4,7 @@
 	"recipe_description": "description",
 	"directions.direction": "directions",
 	"recipe_id": "id",
+	"recipe_image": "images",
 	"recipe_images.recipe_image": "images",
 	"ingredients.ingredient": "ingredients",
 	"recipe_name": "name",

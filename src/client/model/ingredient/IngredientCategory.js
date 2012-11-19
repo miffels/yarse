@@ -11,6 +11,7 @@ var IngredientCategory = Model.extend({
 		
 	initialize: function() {
 		this.data = this.attributes.data;
+		this.id = this.get('name');
 		Model.prototype.initialize.apply(this, arguments);
 	}
 });

@@ -17,12 +17,13 @@ describe 'Mapper', ->
             recipe_description: 'description',
             recipe_id: 'id',
             recipe_name: 'name',
-            recipe_url: 'url'
+            recipe_url: 'url',
+            recipe_image: 'someImage'
           },
           total_results: '1'
         }
       }
-      mapper.mapRecipes(resultJSON).should.eql [{description: 'description', id: 'id', name: 'name'}]
+      mapper.mapRecipes(resultJSON).should.eql [{description: 'description', id: 'id', images: ['someImage'], name: 'name'}]
 
     it 'should be able to deal with complex nested contents', ->
       resultJSON = {

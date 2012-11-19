@@ -25,14 +25,15 @@ function BackboneMapper(recipeMapper, knownIngredients) {
  * The mapping of single instances is delegated to {@link BackboneMappper#mapRecipe}.
  *
  * @param {Object} rawData Result data from {@link FatSecret#fetchRecipe} or {@link FatSecret#getRecipesFor}
+ * @param {Kitchen} [kitchen] Kitchen that should be passed to the sinle {@link Recipe} instances in order to determine what ingredients from the recipe are in the kitchen
  * @returns {RecipeList} A RecipeList containing the {@link Recipe} instances that were described in the input data
  */
-BackboneMapper.prototype.mapRecipes = function(rawData) {
+BackboneMapper.prototype.mapRecipes = function(rawData, kitchen) {
 	var recipeAttributes = this.recipeMapper.mapRecipes(rawData);
 	var recipeList = new RecipeList();
 	
 	recipeAttributes.forEach(function(recipeData) {
-		recipeList.add(this.mapRecipe(recipeData));
+		recipeList.add(this.mapRecipe(recipeData, kitchen));
 	}.bind(this));
 	
 	return recipeList;
@@ -44,9 +45,9 @@ BackboneMapper.prototype.mapRecipes = function(rawData) {
  * @param {Object} recipeData A single data set from the {@link FatSecret} recipe data, previously mapped by a {@link RecipeMapper}
  * @returns {Recipe} The recipeData applied to a {@link Recipe} instance, with its ingredients mapped to an {@link RecipeIngredientList}
  */
-BackboneMapper.prototype.mapRecipe = function(recipeData) {
+BackboneMapper.prototype.mapRecipe = function(recipeData, kitchen) {
 	recipeData.ingredients = this.mapIngredients(recipeData.ingredients);
-	
+	recipeData.kitchen = kitchen;
 	return new Recipe(recipeData);
 };
 
@@ -77,7 +78,7 @@ BackboneMapper.prototype.mapIngredients = function(ingredientsData) {
 BackboneMapper.prototype.getIdsFromIngredientsData = function(ingredientsData) {
 	var ingredientIds = [];
 	ingredientsData.forEach(function(ingredientData) {
-		ingredientIds.push(ingredientsData.id);
+		ingredientIds.push(ingredientData.id);
 	}.bind(this));
 	return ingredientIds;
 };
@@ -94,15 +95,19 @@ BackboneMapper.prototype.getIdsFromIngredientsData = function(ingredientsData) {
 BackboneMapper.prototype.createIngredientList = function(ingredientsData, knownIngredientsInRecipe) {
 	var ingredientsInRecipe = new RecipeIngredientList();
 	ingredientsData.forEach(function(ingredientData) {
-		var knownIngredient = knownIngredientsInRecipe.filterById(ingredientData.id);
+		var knownIngredient = knownIngredientsInRecipe.filterById([ingredientData.id]);
 		if(knownIngredient.length) {
 			knownIngredient = knownIngredient.models[0]; // filterById always returns a RecipeIngredientList
 			knownIngredient.setTransient(ingredientData);
 			ingredientsInRecipe.add(knownIngredient);
 		} else {
-			ingredientsInRecipe.create(ingredientData);
+			ingredientsInRecipe.create({
+				id: ingredientData.id,
+				transientData: ingredientData
+			});
+			this.knownIngredients.add(ingredientsInRecipe.last());
 		}
-	});
+	}.bind(this));
 	return ingredientsInRecipe;
 };
 

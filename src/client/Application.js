@@ -7,12 +7,15 @@ require = require('enhanced-require')(module, {
 var Backbone = require('backbone');
 var $ = require('jquery');
 var FatSecret = require('./api/fatsecret/FatSecret');
+var BackboneMapper = require('./api/mapping/BackboneMapper');
 
 function Application() {
 	var Kitchen = require('./model/kitchen/Kitchen');
 	this.kitchen = new Kitchen();
 	this.fatSecret = new FatSecret();
-	Backbone.Events.bind('kitchenChanged', this.onKitchenChange);
+	this.mapper = new BackboneMapper();
+	this.callId = 0;
+	Backbone.Events.bind('kitchenChanged', this.onKitchenChange, this);
 }
 
 Application.prototype.start = function() {
@@ -36,7 +39,6 @@ Application.prototype.initializeUserInterface = function() {
 
 Application.prototype.initializeIngredientDatabase = function() {
 	var IngredientLoader = require('./model/ingredient/IngredientLoader');
-	window.localStorage.clear();
 	new IngredientLoader().loadToLocalStore();
 };
 
@@ -53,14 +55,8 @@ Application.prototype.buildRecipeList = function() {
 	var Recipe = require('./model/recipe/Recipe');
 	var RecipeList = require('./model/recipe/RecipeList');
 	
-	var recipeList = new RecipeList([
-		new Recipe({name: 'Mashed Potatos', kitchen:this.kitchen}),
-		new Recipe({name: 'Krautsalad', kitchen:this.kitchen}),
-		new Recipe({name: 'DeliSoup', kitchen:this.kitchen})
-	]);
-	var recipeListView = new RecipeListView({
-		data: recipeList
-	});
+	var recipeListView = new RecipeListView();
+	this.recipeListView = recipeListView;
 	return recipeListView;
 };
 
@@ -75,7 +71,37 @@ Application.prototype.enableTooltips = function() {
 };
 
 Application.prototype.onKitchenChange = function(kitchen) {
-	console.log('Kitchen changed, we\'d better load the recipes now!');
+	clearTimeout(this.currentQuery);
+	this.currentQuery = setTimeout(Application.prototype.queryFatSecret.bind(this), 2000, ++this.callId);
+	this.recipeListView.setLoading(true);
+};
+
+Application.prototype.queryFatSecret = function(callId) {
+	this.fatSecret.getRecipesFor(this.kitchen, this.onSearchResult.bind(this), callId);
+};
+
+Application.prototype.onSearchResult = function(results, callId) {
+	if(callId < this.callId) { // Dismiss results if another call was started
+		return;
+	}
+	this.recipeListView.setLoading(false);
+	var recipes = this.mapper.mapRecipes(results);
+	this.recipeListView.addItems(recipes);
+	this.recipeListView.render();
+	
+	var recipe = recipes.models[0];
+	this.fatSecret.fetchRecipe(recipe.get('id'), function(result, callId) {
+		this.onDetailData(result, recipe, callId);
+	}.bind(this), callId);
+};
+
+Application.prototype.onDetailData = function(result, recipe, callId) {
+	if(callId < this.callId) { // Dismiss results if another call was started
+		return;
+	}
+	var recipeData = this.mapper.mapRecipes(result).models[0].attributes;
+	recipe.set(recipeData);
+	this.recipeListView.dataViewMap[recipe].render();
 };
 
 module.exports = Application;

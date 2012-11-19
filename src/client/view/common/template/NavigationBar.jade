@@ -5,7 +5,7 @@
 				span.icon-bar
 				span.icon-bar
 				span.icon-bar
-			a(href="#").brand= pageTitle
+			a(href="#", onClick="window.localStorage.clear(); console.log('LocalStorage cleared');").brand= pageTitle
 			.nav-collapse.collapse
 				ul#tabs.nav
 					each item, i in items

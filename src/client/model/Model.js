@@ -15,7 +15,7 @@ var Model = Backbone.Model.extend({
 	},
 		
 	toString: function() {
-		return '[' + this.typeName + ' object]';
+		return '[' + this.typeName + ' object:' + (this.id || this.cid) + ']';
 	}
 });
 

@@ -1,0 +1,9 @@
+- if(kitchen.length)
+	| Selected: 
+	each ingredient, index in kitchen
+		- if(index)
+			| , #{ingredient.attributes.name}
+		- else
+			| #{ingredient.attributes.name}
+- else
+	| No ingredients selected

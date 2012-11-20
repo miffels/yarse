@@ -1,0 +1,9 @@
+h1 Recipes
+#selectedIngredients
+div(id= spinnerId).hidden
+div(id= contentId)
+	- if(subviews.length)
+		each recipeView in subviews
+			div(id= recipeView.id)
+	- else
+		| There are no recipes to be displayed

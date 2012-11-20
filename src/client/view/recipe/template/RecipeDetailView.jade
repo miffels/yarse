@@ -1,0 +1,28 @@
+.modal-header
+	button(type="button", data-dismiss="modal", aria-hidden="true").close.dismiss x
+	h3(id= id)= recipe.name
+.modal-body
+	- if(!recipe.ingredients)
+		p Detail information not yet available
+	- else
+		.row
+			.span2
+				img(src= recipe.images[0]).flexible
+				div(style="margin-top: 10px; ").recipeIngredientShort= recipe.description
+			.span4
+				h4 Ingredients for #{recipe.numberOfServings} servings:
+				each ingredient in recipe.ingredients.models
+					div= ingredient.getTransient('description')
+		.row
+			.span6
+				h4 Directions
+				each direction, index in recipe.directions
+					div
+						b= (index + 1) + ". "
+						| #{direction}
+.modal-footer
+	-if (!recipe.ingredients)
+		button.btn.btn-primary.disabled Shopping List
+	- else
+		button(data-dismiss="modal").btn.btn-primary.choose Shopping List
+	button(data-dismiss="modal").btn.dismiss Close

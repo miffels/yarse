@@ -1,0 +1,9 @@
+- var numberOfLines= Math.floor(subviews.length/8) || 1
+- for(var i = 0; i < numberOfLines; i++) {
+	.row
+		- for(var j = 0; j < 8; j++) {
+			- var idx = i*8+j;
+				- if(idx < subviews.length)
+					div(id= subviews[idx].id).span1
+		- }
+- }

@@ -1,0 +1,19 @@
+.navbar.navbar-inverse.navbar-fixed-top
+	.navbar-inner
+		.container
+			a(data-toggle="collapse", data-target=".nav-collapse").btn.btn-navbar
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			a(href="#", onClick="window.localStorage.clear(); console.log('LocalStorage cleared');").brand= pageTitle
+			.nav-collapse.collapse
+				ul#tabs.nav
+					each item, i in items
+						li(class= i ? "" : "active")
+							a(href= '#' + item.href, data-toggle="tab")= item.text
+.container
+	#tabsContent.tab-content
+		each item, i in items
+			div(id= item.href, class= i ? "" : "in active").tab-pane.fade
+				.container
+					p= item.content

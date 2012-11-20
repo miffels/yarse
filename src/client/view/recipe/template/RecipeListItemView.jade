@@ -1,6 +1,6 @@
 - var detailId = id+"Detail"
 a(href= "#" + detailId, role="button", data-toggle="modal").recipe
-	.row
+	.row.recipe
 		.span1
 			.thumbnail
 				img(src= recipe.images[0]).flexible
@@ -15,4 +15,5 @@ a(href= "#" + detailId, role="button", data-toggle="modal").recipe
 			//			- else
 			//				| #{ingredient.get('name')}
 			.recipeIngredientShort= recipe.description
+hr.recipe
 div(id= detailId, tabIndex="-1", role="dialog", aria-labelledby=detailId + "Label", aria-hidden="true").modal.hide.fade

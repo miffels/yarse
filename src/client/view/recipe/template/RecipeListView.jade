@@ -3,9 +3,7 @@ h1 Recipes
 div(id= spinnerId).hidden
 div(id= contentId)
 	- if(subviews.length)
-		each recipeView, index in subviews
-			- if(index)
-				hr.recipe
+		each recipeView in subviews
 			div(id= recipeView.id)
 	- else
 		| There are no recipes to be displayed

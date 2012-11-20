@@ -12,12 +12,20 @@ LinearSolver.prototype.solve = function(linearProblem) {
 	if(!(linearProblem instanceof LinearProblem)) {
 		throw new Error('Argument of type ' + linearProblem.constructor.name + ' ist not a LinearProblem');
 	}
-	var solution = this.numeric.solveLP(
-		linearProblem.objectiveFunction,
-		linearProblem.inequalityConstraint.leftHandSide,
-		linearProblem.inequalityConstraint.rightHandSide,
-		linearProblem.equalityConstraint.leftHandSide,
-		linearProblem.equalityConstraint.rightHandSide);
+	var solution;
+	if(linearProblem.equalityConstraint) {
+		solution = this.numeric.solveLP(
+			linearProblem.objectiveFunction,
+			linearProblem.inequalityConstraint.leftHandSide,
+			linearProblem.inequalityConstraint.rightHandSide,
+			linearProblem.equalityConstraint.leftHandSide,
+			linearProblem.equalityConstraint.rightHandSide);
+	} else {
+		solution = this.numeric.solveLP(
+			linearProblem.objectiveFunction,
+			linearProblem.inequalityConstraint.leftHandSide,
+			linearProblem.inequalityConstraint.rightHandSide);
+	}
 	if(solution.message !== '') {
 		throw new Error('Problem could not be solved: ' + solution.message);
 	}

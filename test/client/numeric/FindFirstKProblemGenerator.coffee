@@ -1,13 +1,13 @@
 'use strict'
 
 FindFirstKProblemGenerator = require '../../../src/client/numeric/FindFirstKProblemGenerator'
+RecipeList = require '../../../src/client/model/recipe/RecipeList'
+Recipe = require '../../../src/client/model/recipe/Recipe'
 
 describe 'FindFirstKProblemGenerator', ->
-	recipes = [
-		{"score": 3},
-		{"score": 4},
-		{"score": 1}
-	];
+	recipes = null
+	beforeEach ->
+		recipes = new RecipeList([new Recipe({rating: 3}), new Recipe({rating: 4}), new Recipe({rating: 1})])
 	k = 2;
 	problemGenerator = null
 	beforeEach ->

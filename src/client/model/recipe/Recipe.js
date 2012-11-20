@@ -53,11 +53,19 @@ var Recipe = Model.extend({
 		this.set('ingredientsFromKitchen', kitchen.get('ingredients').filterByName(kitchenIngredientNames));
 	},
 	
-	increaseIngredientProperty: function(property) {
+	addToIngredientProperty: function(property, amount) {
 		this.get('ingredients').forEach(function(ingredient) {
-			ingredient.set(property, ingredient.get(property) + 1);
+			ingredient.set(property, ingredient.get(property) + amount);
 			ingredient.save();
 		});
+	},
+	
+	increaseIngredientProperty: function(property) {
+		this.addToIngredientProperty(property, 1);
+	},
+	
+	decreaseIngredientProperty: function(property) {
+		this.addToIngredientProperty(property, -1);
 	},
 	
 	view: function() {
@@ -66,6 +74,10 @@ var Recipe = Model.extend({
 	
 	dismiss: function() {
 		this.increaseIngredientProperty('dismissed');
+	},
+	
+	revokeDismissal: function() {
+		this.decreaseIngredientProperty('dismissed');
 	},
 	
 	choose: function() {
@@ -77,9 +89,24 @@ var Recipe = Model.extend({
 	},
 	
 	score: function() {
-		var rating = this.get('rating');
-		var score = (rating instanceof Number ? rating : parseInt(rating, 10));
-		score *= this.get('scoreWeights')['rating'];
+		var score = 0;
+		
+		score = this.applyRatingToScore(score);
+		score = this.applyIngredientsToScore(score);
+		
+		return score;
+	},
+	
+	applyRatingToScore: function(score) {
+		var rating = this.get('rating') || 0 * this.get('scoreWeights')['rating'];
+		return score += rating instanceof Number ? rating : parseInt(rating, 10);
+	},
+	
+	applyIngredientsToScore: function(score) {
+		if(!this.get('ingredients')) {
+			return score;
+		}
+		
 		this.get('ingredients').forEach(function(ingredient) {
 			for(var scoreWeight in this.get('scoreWeights')) {
 				if(ingredient.attributes.hasOwnProperty(scoreWeight)) {
@@ -87,6 +114,7 @@ var Recipe = Model.extend({
 				}
 			}
 		}.bind(this));
+		
 		return score;
 	}
 });

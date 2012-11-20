@@ -1,6 +1,6 @@
 {
     "name":	"yarse"
-  , "version": "0.0.1"
+  , "version": "0.1.0"
   , "description": "Yet Another Recipe Search Engine"
   , "keywords": [
         "JavaScript"

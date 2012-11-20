@@ -3,7 +3,8 @@
 var LinearProblem = require('./LinearProblem');
 var IdentityMatrix = require('./IdentityMatrix');
 var Constraint = require('./Constraint');
-var Cluster = require('./Cluster');
+var Degradator = require('./Degradator');
+var ScoreStatifyer = require('./ScoreStatifyer');
 
 function ProblemGenerator() {
 	this.k = 0;
@@ -15,28 +16,35 @@ ProblemGenerator.prototype.generateProblemForFirst = function(k) {
 };
 
 ProblemGenerator.prototype.using = function(recipes) {
-	return this.generateSortingProblem(this.degradatedRecipes(recipes));
+	return this.generateSortingProblem(this.degradedRecipes(this.statifiedRecipes(recipes)));
 };
 
-ProblemGenerator.prototype.generateSortingProblem = function (recipes) {
+ProblemGenerator.prototype.statifiedRecipes = function(recipes) {
+	return new ScoreStatifyer().statify(recipes);
+};
+
+ProblemGenerator.prototype.degradedRecipes = function(scores) {
+	return new Degradator().degradedRecipes(scores);
+};
+
+ProblemGenerator.prototype.generateSortingProblem = function (scores) {
 	return new LinearProblem(
-		this.generateObjectiveFunction(recipes),
-		this.generateInequalityConstraint(recipes),
-		this.generateEqualityConstraint(recipes)
+		this.generateObjectiveFunction(scores),
+		this.generateInequalityConstraint(scores),
+		this.generateEqualityConstraint(scores)
 	);
 };
 
-ProblemGenerator.prototype.generateObjectiveFunction = function(recipes) {
+ProblemGenerator.prototype.generateObjectiveFunction = function(scores) {
 	var objectiveFunction = [];
-	for(var i = 0; i < recipes.length; i++) {
-		var recipe = recipes[i];
-		objectiveFunction.push(-recipe.score);
-	}
+	scores.forEach(function(score) {
+		objectiveFunction.push(-score);
+	});
 	return objectiveFunction;
 };
 
-ProblemGenerator.prototype.generateInequalityConstraint = function(recipes) {
-	var numberOfRecipes = recipes.length;
+ProblemGenerator.prototype.generateInequalityConstraint = function(scores) {
+	var numberOfRecipes = scores.length;
 	
 	var constraintLeftHandSide = this.generateInequalityConstraintLeftHandSide(numberOfRecipes);
 	var constraintRightHandSide = this.generateInequalityConstraintRightHandSide(numberOfRecipes);
@@ -54,85 +62,12 @@ ProblemGenerator.prototype.generateInequalityConstraintLeftHandSide = function(n
 	return constraintLeftHandSide;
 };
 
-ProblemGenerator.prototype.classify = function(recipes) {
-	var clusters = {};
-	
-	for(var i = 0; i < recipes.length; i++) {
-		var score = recipes[i].score;
-		var cluster = this.clusterFor(score, clusters);
-		cluster.push(i);
-	}
-	
-	return this.sortClusters(clusters);
-};
-
-ProblemGenerator.prototype.clusterFor = function(score, clusters) {
-	var cluster = clusters[score];
-	
-	if(typeof cluster === 'undefined') {
-			cluster = new Cluster();
-			cluster.clusterClass = score;
-			clusters[score] = cluster;
-	}
-	
-	return cluster;
-};
-
-ProblemGenerator.prototype.sortClusters = function(clusters) {
-	var clustersAr = [];
-	
-	for(var clusterClass in clusters) {
-		clustersAr.push(clusters[clusterClass]);
-	}
-	
-	return clustersAr.reverse();
-};
-
-ProblemGenerator.prototype.calculateMali = function (clusters) {
-	var mali = [];
-	var malus = 0;
-	
-	for(var i = 0; i < clusters.length; i++) {
-		var minimum = clusters[i].score - clusters[i].length + 1;
-		mali[i] = malus;
-		malus += (clusters[i].length - 1);
-		if(i < clusters.length - 1) {
-			if(clusters[i+1].clusterClass < minimum) {
-				malus = 0;
-			}
-		}
-	}
-	
-	return mali;
-};
-
-ProblemGenerator.prototype.degradatedRecipes = function(recipes) {
-	var clusters = this.classify(recipes);
-	var mali = this.calculateMali(clusters);
-	var result = recipes.slice(0);
-	this.degradate(result, clusters, mali);
-	return result;
-};
-
-ProblemGenerator.prototype.degradate = function(recipes, clusters, mali) {
-	var count = 0;
-	for(var i = 0; i < mali.length; i++) {
-		var cluster = clusters[i];
-		var malus = mali[i];
-		for(var j = 0; j < cluster.length; j++) {
-			recipes[cluster[j]].score -= malus;
-			malus++;
-			count++;
-		}
-	}
-};
-
 ProblemGenerator.prototype.generateInequalityConstraintRightHandSide = function(numberOfRecipes) {
 	throw new Error('Abstract Method');
 };
 
-ProblemGenerator.prototype.generateEqualityConstraint = function(recipes) {
-	var numberOfRecipes = recipes.length;
+ProblemGenerator.prototype.generateEqualityConstraint = function(scores) {
+	var numberOfRecipes = scores.length;
 	
 	var constraintLeftHandSide = this.generateEqualityConstraintLeftHandSide(numberOfRecipes);
 	var constraintRightHandSide = this.generateEqualityConstraintRightHandSide();

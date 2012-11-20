@@ -37,7 +37,6 @@ FatSecret.prototype.resolve = function(url, callback, callId) {
 	$.ajax({
 		url: forwardServerAddress
 	}).done(function(result) {
-		console.log('Resolved call ID ' + callId);
 		callback(result, callId);
 	}).error(function(error) {
 		console.log(error.responseText);

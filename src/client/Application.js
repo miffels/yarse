@@ -19,7 +19,18 @@ function Application() {
 }
 
 Application.prototype.start = function() {
+	this.loadCustomJQueryEvents();
 	this.initializeUserInterface();
+};
+
+Application.prototype.loadCustomJQueryEvents = function() {
+	$.event.special.remove = {
+		remove: function(o) {
+			if (o.handler) {
+				o.handler();
+			}
+		}
+	};
 };
 
 Application.prototype.initializeUserInterface = function() {
@@ -71,9 +82,13 @@ Application.prototype.enableTooltips = function() {
 };
 
 Application.prototype.onKitchenChange = function(kitchen) {
-	clearTimeout(this.currentQuery);
-	this.currentQuery = setTimeout(Application.prototype.queryFatSecret.bind(this), 2000, ++this.callId);
-	this.recipeListView.setLoading(true);
+	if(this.kitchen.get('ingredients').length) {
+		clearTimeout(this.currentQuery);
+		this.currentQuery = setTimeout(Application.prototype.queryFatSecret.bind(this), 2000, ++this.callId);
+		this.recipeListView.setLoading(true);
+	} else {
+		this.recipeListView.clear();
+	}
 };
 
 Application.prototype.queryFatSecret = function(callId) {

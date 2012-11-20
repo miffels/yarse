@@ -68,15 +68,28 @@ describe 'Recipe', ->
 			recipe.get('ingredients').models[0].get('ignored').should.equal 1
 			recipe.get('ingredients').models[1].get('ignored').should.equal 1
 			
-  describe '#score', ->
-    it 'should equal the rating initially', ->
-      recipe.set('rating', '3')
-      recipe.score().should.equal 3
-    
-    it 'should take ingredient rating parameters into account if applicable', ->
-      recipe.set('rating', '3')
-      recipe.get('ingredients').models[0].set('viewed', '1')
-      recipe.get('ingredients').models[0].set('dismissed', 2)
-      recipe.get('ingredients').models[1].set('chosen', '3')
-      recipe.get('ingredients').models[1].set('ignored', 4)
-      recipe.score().should.equal 4
+	describe '#revokeDismissal', ->
+		it 'should decrese the dismiss count of its ingredients by 1', ->
+			recipe.get('ingredients').models[0].get('dismissed').should.equal 0
+			recipe.get('ingredients').models[1].get('dismissed').should.equal 0
+			recipe.revokeDismissal()
+			recipe.get('ingredients').models[0].get('dismissed').should.equal -1
+			recipe.get('ingredients').models[1].get('dismissed').should.equal -1
+			
+	describe '#score', ->
+		it 'should equal the rating initially', ->
+			recipe.set('rating', '3')
+			recipe.score().should.equal 3
+		
+		it 'should take ingredient rating parameters into account if applicable', ->
+			recipe.set('rating', '3')
+			recipe.get('ingredients').models[0].set('viewed', '1')
+			recipe.get('ingredients').models[0].set('dismissed', 2)
+			recipe.get('ingredients').models[1].set('chosen', '3')
+			recipe.get('ingredients').models[1].set('ignored', 4)
+			recipe.score().should.equal 4
+		
+		it 'should not crash if there are no ingredients or ratings', ->
+			recipe.set('ingredients', null)
+			recipe.set('rating', null)
+			recipe.score().should.equal 0

@@ -9,12 +9,19 @@ var $ = require('jquery');
 var FatSecret = require('./api/fatsecret/FatSecret');
 var BackboneMapper = require('./api/mapping/BackboneMapper');
 
+var FindFirstKProblemGenerator = require('./numeric/FindFirstKProblemGenerator');
+var LinearSolver = require('./numeric/LinearSolver');
+
+var RecipeList = require('./model/recipe/RecipeList');
+
 function Application() {
 	var Kitchen = require('./model/kitchen/Kitchen');
 	this.kitchen = new Kitchen();
 	this.fatSecret = new FatSecret();
 	this.mapper = new BackboneMapper();
 	this.callId = 0;
+	this.problemGenerator = new FindFirstKProblemGenerator();
+	this.linearSolver = new LinearSolver();
 	Backbone.Events.bind('kitchenChanged', this.onKitchenChange, this);
 }
 
@@ -99,24 +106,54 @@ Application.prototype.onSearchResult = function(results, callId) {
 	if(callId < this.callId) { // Dismiss results if another call was started
 		return;
 	}
-	this.recipeListView.setLoading(false);
-	var recipes = this.mapper.mapRecipes(results);
-	this.recipeListView.addItems(recipes);
-	this.recipeListView.render();
+	this.recipes = this.mapper.mapRecipes(results);
+	this.numberOfRecipes = this.recipes.length;
+	this.recipesFetched = 0;
 	
-	var recipe = recipes.models[0];
-	this.fatSecret.fetchRecipe(recipe.get('id'), function(result, callId) {
-		this.onDetailData(result, recipe, callId);
-	}.bind(this), callId);
+	this.recipes.each(function(recipe) {
+		this.fatSecret.fetchRecipe(recipe.get('id'), function(result, callId) {
+			this.onDetailData(result, recipe, callId);
+		}.bind(this), callId);
+	}.bind(this));
 };
 
 Application.prototype.onDetailData = function(result, recipe, callId) {
 	if(callId < this.callId) { // Dismiss results if another call was started
 		return;
 	}
-	var recipeData = this.mapper.mapRecipes(result).models[0].attributes;
-	recipe.set(recipeData);
-	this.recipeListView.dataViewMap[recipe].render();
+	if(result.error) {
+		console.log(result);
+		this.numberOfRecipes--;
+	} else {
+		var recipeData = this.mapper.mapRecipes(result).models[0].attributes;
+		recipe.set(recipeData);
+		this.recipesFetched++;
+		console.log('Fetched recipe id ' + recipe.get('id') + ' (' + this.recipesFetched + ' out of ' + this.numberOfRecipes + ')');
+	}
+	
+	if(this.recipesFetched === this.numberOfRecipes) {
+		this.loadingFinished();
+	}
+};
+
+Application.prototype.loadingFinished = function() {
+	console.log('Loading finished.');
+	this.recipeListView.setLoading(false);
+	
+	this.recipeListView.addItems(this.bestRecipes());
+	this.recipeListView.render();
+};
+
+Application.prototype.bestRecipes = function() {
+	var problem = this.problemGenerator.generateProblemForFirst(2).using(this.recipes);
+	var solution = this.linearSolver.solve(problem);
+	var bestRecipes = new RecipeList();
+	solution.forEach(function(isGood, index) {
+		if(isGood) {
+			bestRecipes.add(this.recipes.models[index]);
+		}
+	}.bind(this));
+	return bestRecipes;
 };
 
 module.exports = Application;

@@ -48,6 +48,9 @@ Degradator.prototype.calculateMali = function (clusters) {
 	var mali = [];
 	var malus = 0;
 	
+	// I once tried to explain this step to someone, but it turned out to be
+	// just as cryptic as these following lines. The tests tell you it works,
+	// so just don't touch it :)
 	clusters.forEach(function(cluster, index) {
 		var minimum = cluster.score - cluster.length + 1;
 		mali[index] = malus;

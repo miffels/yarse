@@ -13,79 +13,86 @@ function SignatureServer() {
 		'sign': this.makeSignature,
 		'cors': this.forward
 	};
+	this.contexts = {};
+	this.contextId = 0;
 }
 
 SignatureServer.prototype.handleQuery = function(request, response) {
-	this.query = url.parse(request.url, true).query;
-	this.response = response;
-	if(!this.query.yarseMethod) {
-		this.respondBadRequest('Missing parameter \'yarseMethod\'');
+	var contextId = this.contextId++;
+	this.contexts[contextId] = {};
+	this.contexts[contextId].query = url.parse(request.url, true).query;
+	this.contexts[contextId].request = request;
+	this.contexts[contextId].response = response;
+	
+	if(!this.contexts[contextId].query.yarseMethod) {
+		this.respondBadRequest('Missing parameter \'yarseMethod\'', contextId);
 		return;
 	}
-	var yarseMethod = this.methodHandlers[this.query.yarseMethod];
+	var yarseMethod = this.methodHandlers[this.contexts[contextId].query.yarseMethod];
 	if(yarseMethod) {
-		yarseMethod.apply(this);
+		yarseMethod.call(this, contextId);
 	} else {
-		this.respondBadRequest('Unknown method: ' + this.query.method);
+		this.respondBadRequest('Unknown method: ' + this.contexts[contextId].query.method, contextId);
 	}
 };
 
-SignatureServer.prototype.respondBadRequest = function(message) {
-	this.respond(400, message);
+SignatureServer.prototype.respondBadRequest = function(message, contextId) {
+	this.respond(400, message, contextId);
 };
 
-SignatureServer.prototype.respond = function(status, message, contentType) {
-	this.response.writeHead(status, {
+SignatureServer.prototype.respond = function(status, message, contextId, contentType) {
+	var response = this.contexts[contextId].response;
+	response.writeHead(status, {
 		'Content-Type' : contentType ? contentType : 'text/plain',
 		'Access-Control-Allow-Origin' : '*'
 	});
-	console.log('Responding with ' + message);
-	this.response.end(message);
+	console.log('Responding with ' + (message.length < 50 ? message : message.substring(0, 49) + '...'));
+	response.end(message);
 };
 
-SignatureServer.prototype.forward = function() {
-	if(!this.query.target) {
-		this.respondBadRequest('Missing parameter \'target\'');
+SignatureServer.prototype.forward = function(contextId) {
+	if(!this.contexts[contextId].query.target) {
+		this.respondBadRequest('Missing parameter \'target\'', contextId);
 	} else {
-		console.log('Forwarding request: ' + this.query.target);
-		this.forwardWithHttp();
+		console.log('Forwarding request: ' + this.contexts[contextId].query.target);
+		this.forwardWithHttp(contextId);
 	}
 };
 
-SignatureServer.prototype.forwardWithHttp = function() {
-	http.get(this.query.target, function(response) {
+SignatureServer.prototype.forwardWithHttp = function(contextId) {
+	http.get(this.contexts[contextId].query.target, function(response) {
 		var data = '';
 		response.on('data', function (chunk) {
 			data += chunk;
 		}.bind(this));
 		response.on('end', function() {
-			this.respond(200, data, 'application/json');
+			this.respond(200, data, contextId, 'application/json');
 		}.bind(this));
 	}.bind(this));
 };
 
-SignatureServer.prototype.forwardWithJQuery = function() {
+SignatureServer.prototype.forwardWithJQuery = function(contextId) {
 	$.ajax({
-		url: this.query.target,
+		url: this.contexts[contextId].query.target,
 		dataType: 'text'
 	}).done(function(result) {
-		this.respond(200, result, 'application/json');
+		this.respond(200, result, contextId, 'application/json');
 	}.bind(this)).error(function(error) {
 		console.log(error.responseText);
 	});
 };
 
-SignatureServer.prototype.makeSignature = function() {
-	if(this.query.data && this.query.accessSecret !== undefined) {
+SignatureServer.prototype.makeSignature = function(contextId) {
+	if(this.contexts[contextId].query.data && this.contexts[contextId].query.accessSecret !== undefined) {
 		
-		console.log('Received request: Sign ' + this.query.data + ' using ' + this.query.accessSecret);
+		console.log('Received request: Sign ' + this.contexts[contextId].query.data + ' using ' + this.contexts[contextId].query.accessSecret);
 		
 		this.readSecret(function(consumerSecret) {
-			var signature = this.sign(consumerSecret);
-			this.respond(200, signature);
+			var signature = this.sign(consumerSecret, contextId);
+			this.respond(200, signature, contextId);
 		}.bind(this));
 	} else {
-		this.respondBadRequest('Missing parameter \'data\' or \'accessSecret\'');
+		this.respondBadRequest('Missing parameter \'data\' or \'accessSecret\'', contextId);
 	}
 };
 
@@ -100,17 +107,17 @@ SignatureServer.prototype.readSecret = function(callback) {
 	});
 };
 
-SignatureServer.prototype.sign = function(consumerSecret) {
-	var key = consumerSecret + '&' + this.query.accessSecret;
-	return this.encode(this.encrypt(key));
+SignatureServer.prototype.sign = function(consumerSecret, contextId) {
+	var key = consumerSecret + '&' + this.contexts[contextId].query.accessSecret;
+	return this.encode(this.encrypt(key, contextId));
 };
 
 SignatureServer.prototype.encode = function(data) {
 	return encodeURIComponent(data);
 };
 
-SignatureServer.prototype.encrypt = function(key) {
-	return crypto.createHmac('sha1', key).update(this.query.data).digest('base64');
+SignatureServer.prototype.encrypt = function(key, contextId) {
+	return crypto.createHmac('sha1', key).update(this.contexts[contextId].query.data).digest('base64');
 };
 
 SignatureServer.prototype.start = function(response) {

@@ -16,3 +16,15 @@ describe 'FatSecret', ->
 	describe '#buildSearchStringFrom', ->
     it 'should build a search string using the ingredients in the kitchen, separated by commas', ->
       fatSecret.buildSearchStringFrom(kitchen.attributes.ingredients).should.equal '1,2'
+  
+  describe '#fetchRecipe', ->
+    it 'should return cached results if available', ->
+      fatSecret.cache = {r1: 'someResult'};
+      callback = (result) -> result.should.equal 'someResult'
+      fatSecret.fetchRecipe(1, callback)
+  
+  describe '#getRecipesFor', ->
+    it 'should return cached results if available', ->
+      fatSecret.cache = {'s1,2': 'someResult'};
+      callback = (result) -> result.should.equal 'someResult'
+      fatSecret.getRecipesFor(kitchen, callback)

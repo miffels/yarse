@@ -4,16 +4,20 @@ Requirements
 For Windows, you will need:
 
 [Python][python] `2.7.3` on PATH
-Visual Studio 2010, at least [Express][vs]
+[Git][git] installed
+
+Additionally, for Windows 7:
+Visual Studio 2010, at least [Express][vs2010]
 [Windows 7 x64 SDK][winsdk] for x64 systems
-[Git][git] installed and [ssh][ssh] configured (ssh for development only)
+
+On Windows 8, try [Microsoft Visual Studio C++ 2012][vs2010] alone. If that doesn't work, you might need to add as well [Microsoft Visual Studio C++ 2012][vs2012]
 
 Installation
 ------------
 
 Requirements (see https://github.com/TooTallNate/node-gyp):
 
-``cd`` to the project root and run
+After cloning the repository, ``cd`` to the project root and run
 
 ``` bash
 $ npm install
@@ -42,9 +46,9 @@ Running
 2. If you put the key there, ``cd`` to the project root directory and start the signature server via ``node src/server``.
 3. Open the ``index.html`` file you created before by running ``node build`` in your browser and enjoy the app.
 
-[vs]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-2010-express
+[vs2010]: http://www.microsoft.com/visualstudio/eng/products/visual-studio-2010-express
+[vs2012]: http://go.microsoft.com/?linkid=9816758
 [python]: http://www.python.org/download/releases/2.7.3#download
-[ssh]: https://help.github.com/articles/generating-ssh-keys
 [git]: http://git-scm.com/downloads
 [winsdk]: http://www.microsoft.com/download/en/details.aspx?displayLang=en&id=8279
 [fatsecret]: http://platform.fatsecret.com/api/

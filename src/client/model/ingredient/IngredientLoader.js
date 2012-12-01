@@ -8,7 +8,7 @@ var IngredientCategoryList = require('../../model/ingredient/IngredientCategoryL
 function IngredientLoader() {}
 
 IngredientLoader.prototype.loadToLocalStore = function() {
-		this.loadCategories(require('./static/ingredients.json'));
+		this.loadCategories(require('./data/ingredients.json'));
 };
 
 IngredientLoader.prototype.loadCategories = function(categories) {

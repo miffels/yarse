@@ -21,7 +21,7 @@ $ npm install
 
 Npm will then start loading the dependencies and configuration scripts will take care of manual dependency builds.
 
-For development, `grunt` is configured to watch the file system and run mocha tests on changes, written in CoffeeScript, automatically. In order to start `grunt`, `cd` to the project root directory and run
+For development, `grunt` is configured to watch the file system and run mocha tests on changes, written in CoffeeScript, automatically. In order to start `grunt`, `cd` to the project root directory and type
 
 ``` bash
 $ grunt

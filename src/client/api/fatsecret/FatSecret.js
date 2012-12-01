@@ -40,7 +40,7 @@ FatSecret.prototype.makeRequest = function(requestBlank, callback, callId, query
 	}
 };
 
-FatSecret.prototype.resolve = function(url, callback, callId) {
+FatSecret.prototype.resolve = function(url, callback, callId, queryId) {
 	var forwardServerAddress = yarseConfiguration.signatureServer + ':' + yarseConfiguration.signatureServerPort +
 	'?yarseMethod=' + yarseConfiguration.forwardMethod +
 	'&target=' + encodeURIComponent(url);
@@ -48,8 +48,9 @@ FatSecret.prototype.resolve = function(url, callback, callId) {
 	$.ajax({
 		url: forwardServerAddress
 	}).done(function(result) {
+		this.cache[queryId] = result;
 		callback(result, callId);
-	}).error(function(error) {
+	}.bind(this)).error(function(error) {
 		console.log(error.responseText);
 		new ErrorView({message: 'Are you sure the required node server is up, running and configured?'}).render();
 	});

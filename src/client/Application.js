@@ -140,7 +140,7 @@ Application.prototype.loadingFinished = function() {
 	console.log('Loading finished.');
 	this.recipeListView.setLoading(false);
 	
-	this.recipeListView.addItems(this.bestRecipes());
+	this.recipeListView.addItems(this.bestRecipesUsingSort());
 	this.recipeListView.render();
 };
 

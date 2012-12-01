@@ -6,21 +6,23 @@ a(href= "#" + detailId, role="button", data-toggle="modal").recipe
 				img(src= recipe.images[0]).flexible
 		.span5
 			.recipeName= recipe.name
-			//.recipeIngredientShort
-			//	- if(recipe.ingredientsFromKitchen.length)
-			//		| with 
-			//		each ingredient, index in recipe.ingredientsFromKitchen.models
-			//			- if(index)
-			//				| , #{ingredient.get('name')}
-			//			- else
-			//				| #{ingredient.get('name')}
-			.recipeIngredientShort= recipe.description  
-		.span12
-			- var classes = "right score"
-			- if(recipe.score > 10)
-				- classes = classes + " high-score"
-			- else if(recipe.score < -10)
-				- classes = classes + " low-score"
-			div(class= classes)= recipe.score.toFixed(1)
+			.recipeIngredientShort
+				- if(recipe.ingredientsFromKitchen.length)
+					| with 
+					each ingredient, index in recipe.ingredientsFromKitchen.models
+						- var ingredientName = ingredient.getTransient('name')
+						- var bracketIndex = ingredientName.indexOf(' (')
+						- ingredientName = bracketIndex === -1 ? ingredientName : ingredientName.slice(0, bracketIndex)
+						- if(index)
+							| , #{ingredientName}
+						- else
+							| #{ingredientName}
+			//.recipeIngredientShort= recipe.description  
+		- var classes = "right score"
+		- if(recipe.score > 10)
+			- classes = classes + " high-score"
+		- else if(recipe.score < -10)
+			- classes = classes + " low-score"
+		span(class= classes)= recipe.score.toFixed(1)
 hr.recipe
 div(id= detailId, tabIndex="-1", role="dialog", aria-labelledby=detailId + "Label", aria-hidden="true").modal.hide.fade

@@ -123,11 +123,14 @@ Application.prototype.onDetailData = function(result, recipe, callId) {
 		return;
 	}
 	if(result.error) {
-		console.log(result);
 		this.numberOfRecipes--;
 	} else {
 		var recipeData = this.mapper.mapRecipes(result).models[0].attributes;
-		recipe.set(recipeData);
+		recipeData['kitchen'] = this.kitchen;
+		for(var key in recipeData) {
+			recipe.set(key, recipeData[key]);
+		}
+		recipe.calculateKitchenOverlap();
 		this.recipesFetched++;
 		console.log('Fetched recipe id ' + recipe.get('id') + ' (' + this.recipesFetched + ' out of ' + this.numberOfRecipes + ')');
 	}

@@ -11,7 +11,7 @@ function FatSecret() {
 FatSecret.prototype.getRecipesFor = function(kitchen, callback, callId) {
 	var requestBlank = new FatSecretRequestBlank();
 	requestBlank.parameters.method = 'recipes.search';
-	requestBlank.parameters.max_results = 3;
+	requestBlank.parameters.max_results = 20;
 	requestBlank.parameters.search_expression = this.buildSearchStringFrom(kitchen.get('ingredients'));
 	
 	requestBlank.makeRequest(function(url) {

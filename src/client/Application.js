@@ -11,7 +11,7 @@ var LinearSolver = require('./numeric/LinearSolver');
 var RecipeList = require('./model/recipe/RecipeList');
 
 function Application() {
-	var Kitchen = require('./model/kitchen/Kitchen'); 
+	var Kitchen = require('./model/kitchen/Kitchen');
 	this.kitchen = new Kitchen();
 	
 	this.fatSecret = new FatSecret();

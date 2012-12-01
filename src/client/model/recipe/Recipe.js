@@ -22,9 +22,9 @@ var Recipe = Model.extend({
 		kitchen: null,
 		scoreWeights: {
 			'viewed': 0,
-			'dismissed': -3,
-			'chosen': 5,
-			'ignored': -2,
+			'dismissed': -1,
+			'chosen': 1,
+			'ignored': 0,
 			'rating': 1
 		}
 	},

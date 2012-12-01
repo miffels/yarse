@@ -7,7 +7,7 @@ var RecipeList = require('../../model/recipe/RecipeList');
 
 var $ = require('jquery');
 var spin = require('../../../../lib/spin');
-//$.fn.spin = spin;
+var Backbone = require('backbone');
 
 var RecipeListView = JadeListView.extend({
 	id: 'recipes',
@@ -18,6 +18,9 @@ var RecipeListView = JadeListView.extend({
 	kitchenView: null,
 	spinnerId: 'recipeListSpinner',
 	contentId: 'recipeListContent',
+	events: {
+		'click h1': 'onHeaderClick'
+	},
 	
 	initialize: function() {
 		JadeListView.prototype.initialize.apply(this, arguments);
@@ -49,6 +52,10 @@ var RecipeListView = JadeListView.extend({
 		var view = JadeListView.prototype.setSubviewID.apply(this, arguments);
 		view.detailView.id =  view.id + 'Detail';
 		return view;
+	},
+	
+	onHeaderClick: function() {
+		Backbone.Events.trigger('refresh');
 	}
 });
 

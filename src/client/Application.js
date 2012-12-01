@@ -1,9 +1,5 @@
 'use strict';
 
-/*global require:true */
-require = require('enhanced-require')(module, {
-	recursive: true
-});
 var Backbone = require('backbone');
 var $ = require('jquery');
 var FatSecret = require('./api/fatsecret/FatSecret');
@@ -17,12 +13,17 @@ var RecipeList = require('./model/recipe/RecipeList');
 function Application() {
 	var Kitchen = require('./model/kitchen/Kitchen');
 	this.kitchen = new Kitchen();
+	
 	this.fatSecret = new FatSecret();
 	this.mapper = new BackboneMapper();
 	this.callId = 0;
+	
 	this.problemGenerator = new FindFirstKProblemGenerator();
 	this.linearSolver = new LinearSolver();
+	this.numberOfResults = 10;
+	
 	Backbone.Events.bind('kitchenChanged', this.onKitchenChange, this);
+	Backbone.Events.bind('refresh', this.onKitchenChange, this);
 }
 
 Application.prototype.start = function() {
@@ -139,13 +140,13 @@ Application.prototype.onDetailData = function(result, recipe, callId) {
 Application.prototype.loadingFinished = function() {
 	console.log('Loading finished.');
 	this.recipeListView.setLoading(false);
-	
-	this.recipeListView.addItems(this.bestRecipes());
+	var recipes = this.bestRecipesUsingSort();
+	this.recipeListView.addItems(recipes);
 	this.recipeListView.render();
 };
 
-Application.prototype.bestRecipes = function() {
-	var problem = this.problemGenerator.generateProblemForFirst(2).using(this.recipes);
+Application.prototype.bestRecipesUsingLP = function() {
+	var problem = this.problemGenerator.generateProblemForFirst(this.numberOfResults).using(this.recipes);
 	var solution = this.linearSolver.solve(problem);
 	var bestRecipes = new RecipeList();
 	solution.forEach(function(isGood, index) {
@@ -154,6 +155,12 @@ Application.prototype.bestRecipes = function() {
 		}
 	}.bind(this));
 	return bestRecipes;
+};
+
+Application.prototype.bestRecipesUsingSort = function() {
+	return new RecipeList(this.recipes.models.sort(function(a, b){
+		return a.score()-b.score();
+	}).slice(-this.numberOfResults).reverse());
 };
 
 module.exports = Application;

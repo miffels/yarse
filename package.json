@@ -24,7 +24,7 @@
   	    ]
   	}
   , "devDependencies": {
-        "enhanced-require": "0.4.x",
+        "enhanced-require": "0.4.x"
       , "mocha": "1.6.x"
       , "should": "1.2.x"
       , "grunt-simple-mocha": "0.2.x"

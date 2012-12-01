@@ -10,7 +10,14 @@ describe 'Recipe', ->
 	recipe = null
 	beforeEach ->
 		recipe = new Recipe ({
-			ingredients: new RecipeIngredientList([new RecipeIngredient, new RecipeIngredient])
+			ingredients: new RecipeIngredientList([new RecipeIngredient, new RecipeIngredient]),
+			scoreWeights: {
+				'viewed': 0,
+				'dismissed': -3,
+				'chosen': 5,
+				'ignored': -2,
+				'rating': 1
+			}
 		})
 	describe '#Recipe', ->
 

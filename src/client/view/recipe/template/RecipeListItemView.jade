@@ -14,6 +14,13 @@ a(href= "#" + detailId, role="button", data-toggle="modal").recipe
 			//				| , #{ingredient.get('name')}
 			//			- else
 			//				| #{ingredient.get('name')}
-			.recipeIngredientShort= recipe.description
+			.recipeIngredientShort= recipe.description  
+		.span12
+			- var classes = "right score"
+			- if(recipe.score > 10)
+				- classes = classes + " high-score"
+			- else if(recipe.score < -10)
+				- classes = classes + " low-score"
+			div(class= classes)= recipe.score.toFixed(1)
 hr.recipe
 div(id= detailId, tabIndex="-1", role="dialog", aria-labelledby=detailId + "Label", aria-hidden="true").modal.hide.fade

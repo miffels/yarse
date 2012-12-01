@@ -23,6 +23,7 @@ function Application() {
 	this.numberOfResults = 10;
 	
 	Backbone.Events.bind('kitchenChanged', this.onKitchenChange, this);
+	Backbone.Events.bind('refresh', this.onKitchenChange, this);
 }
 
 Application.prototype.start = function() {
@@ -139,8 +140,8 @@ Application.prototype.onDetailData = function(result, recipe, callId) {
 Application.prototype.loadingFinished = function() {
 	console.log('Loading finished.');
 	this.recipeListView.setLoading(false);
-	
-	this.recipeListView.addItems(this.bestRecipesUsingSort());
+	var recipes = this.bestRecipesUsingSort();
+	this.recipeListView.addItems(recipes);
 	this.recipeListView.render();
 };
 
@@ -159,7 +160,7 @@ Application.prototype.bestRecipesUsingLP = function() {
 Application.prototype.bestRecipesUsingSort = function() {
 	return new RecipeList(this.recipes.models.sort(function(a, b){
 		return a.score()-b.score();
-	}).slice(-this.numberOfResults));
+	}).slice(-this.numberOfResults).reverse());
 };
 
 module.exports = Application;

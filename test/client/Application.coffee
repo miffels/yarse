@@ -25,5 +25,5 @@ describe 'Application', ->
 			application.numberOfResults = 10
 			recipes = application.bestRecipesUsingSort()
 			recipes.length.should.equal 2
-			recipes.models[0].score().should.equal 1
-			recipes.models[1].score().should.equal 2
+			recipes.models[0].score().should.equal 2
+			recipes.models[1].score().should.equal 1

@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.1.48
+3 info using node@v0.8.6
+4 verbose config file C:\Users\d053411\.npmrc
+5 verbose config file c:\Program Files (x86)\nodejs\etc\npmrc
+6 verbose config file c:\Program Files (x86)\nodejs\node_modules\npm\npmrc
+7 verbose read json C:\Users\d053411\My Documents\Aptana Studio 3 Workspace\yarse\package.json
+8 error install Couldn't read dependencies
+9 error Failed to parse json
+9 error Unexpected token ,
+10 error File: C:\Users\d053411\My Documents\Aptana Studio 3 Workspace\yarse\package.json
+11 error Failed to parse package.json data.
+11 error package.json must be actual JSON, not just JavaScript.
+11 error
+11 error This is not a bug in npm.
+11 error Tell the package author to fix their package.json file. JSON.parse
+12 error System Windows_NT 6.1.7600
+13 error command "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+14 error cwd C:\Users\d053411\My Documents\Aptana Studio 3 Workspace\yarse
+15 error node -v v0.8.6
+16 error npm -v 1.1.48
+17 error file C:\Users\d053411\My Documents\Aptana Studio 3 Workspace\yarse\package.json
+18 error code EJSONPARSE
+19 verbose exit [ 1, true ]

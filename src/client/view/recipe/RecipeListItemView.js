@@ -27,6 +27,7 @@ var RecipeListItemView = JadeView.extend({
 	
 	setJadeParameters: function() {
 		this.jadeParameters.recipe = this.recipe.attributes;
+		this.jadeParameters.recipe.score = this.recipe.score();
 	},
 	
 	render: function() {

@@ -10,7 +10,14 @@ describe 'Recipe', ->
 	recipe = null
 	beforeEach ->
 		recipe = new Recipe ({
-			ingredients: new RecipeIngredientList([new RecipeIngredient, new RecipeIngredient])
+			ingredients: new RecipeIngredientList([new RecipeIngredient, new RecipeIngredient]),
+			scoreWeights: {
+				'viewed': 0,
+				'dismissed': -3,
+				'chosen': 5,
+				'ignored': -2,
+				'rating': 1
+			}
 		})
 	describe '#Recipe', ->
 
@@ -27,9 +34,9 @@ describe 'Recipe', ->
 			kitchen = new Kitchen
 			ingredient = new KitchenIngredient({name: 'Beans'})
 			kitchen.addIngredient(ingredient)
-			recipeIngredients = new RecipeIngredientList([new RecipeIngredient({name: 'Beans asdfg'})])
+			recipeIngredients = new RecipeIngredientList([new RecipeIngredient({transientData: {name: 'Beans asdfg'}})])
 			recipe = new Recipe({ingredients: recipeIngredients, kitchen: kitchen})
-			recipe.get('ingredientsFromKitchen').models[0].should.equal ingredient
+			recipe.get('ingredientsFromKitchen').models[0].should.equal recipeIngredients.models[0]
 		
 		it 'should never point to a null object if it has no kitchen information', ->
 			new Recipe().get('ingredientsFromKitchen').should.be.ok

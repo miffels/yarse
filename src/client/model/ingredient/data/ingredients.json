@@ -1,0 +1,5 @@
+{
+	"meats": ["beef", "chicken", "pork"],
+	"fruit": ["apple", "orange", "pineapple"],
+	"vegetables": ["cabbage", "carrot", "onion", "potato"]
+}

@@ -1,6 +1,6 @@
 {
     "name":	"yarse"
-  , "version": "0.1.0"
+  , "version": "0.2.0"
   , "description": "Yet Another Recipe Search Engine"
   , "keywords": [
         "JavaScript"
@@ -23,11 +23,9 @@
   	        "jam install"
   	    ]
   	}
-  , "dependencies": {
-        "enhanced-require": "0.4.x"
-    }
   , "devDependencies": {
-        "mocha": "1.6.x"
+        "enhanced-require": "0.4.x"
+      , "mocha": "1.6.x"
       , "should": "1.2.x"
       , "grunt-simple-mocha": "0.2.x"
       , "webpack": "0.8.x"

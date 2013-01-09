@@ -2,6 +2,7 @@
 
 var Model = require('../Model');
 var KitchenIngredientList = require('../ingredient/KitchenIngredientList');
+var RecipeIngredientList = require('../ingredient/RecipeIngredientList');
 
 var Recipe = Model.extend({
 	typeName: 'Recipe',
@@ -18,13 +19,13 @@ var Recipe = Model.extend({
 		preparationTime: null,
 		rating: null,
 		types: null,
-		ingredientsFromKitchen: null,
+		ingredientsFromKitchen: new RecipeIngredientList(),
 		kitchen: null,
 		scoreWeights: {
 			'viewed': 0,
-			'dismissed': -3,
-			'chosen': 5,
-			'ignored': -2,
+			'dismissed': -1,
+			'chosen': 1,
+			'ignored': 0,
 			'rating': 1
 		}
 	},
@@ -32,7 +33,6 @@ var Recipe = Model.extend({
 	initialize: function() {
 		Model.prototype.initialize.apply(this, arguments);
 		this.setDefaultImage();
-		this.calculateKitchenOverlap();
 	},
 	
 	setDefaultImage: function() {
@@ -43,6 +43,9 @@ var Recipe = Model.extend({
 	calculateKitchenOverlap: function() {
 		var kitchenIngredientNames = [];
 		var kitchen = this.get('kitchen');
+		if(!this.get('ingredients')) {
+			this.set('ingredients', new RecipeIngredientList());
+		}
 		if(!kitchen) {
 			this.set('ingredientsFromKitchen', new KitchenIngredientList());
 			return;
@@ -50,7 +53,9 @@ var Recipe = Model.extend({
 		kitchen.get('ingredients').each(function(ingredient) {
 			kitchenIngredientNames.push(ingredient.get('name'));
 		});
-		this.set('ingredientsFromKitchen', kitchen.get('ingredients').filterByName(kitchenIngredientNames));
+
+		var filteredIngredients = this.get('ingredients').filterByName(kitchenIngredientNames, this.attributes.id);
+		this.set('ingredientsFromKitchen', filteredIngredients);
 	},
 	
 	addToIngredientProperty: function(property, amount) {
